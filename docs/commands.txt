@@ -1,10 +1,11 @@
 FFmpeg commands 
 =================
 
-VideoGen is only a python wrapper for FFmpeg platform. Below are presented FFmpeg commands that will be utilized in VideoGen project.
+**VideoGen** is only a python wrapper for **FFmpeg** platform. Below are presented **FFmpeg** commands that will be utilized in **VideoGen** project.
 Using **FFmpeg 1.1.3**
 
-  1. Configuration
+  **1. Configuration**
+
     a) Frame
       * resolution:
 
@@ -25,7 +26,8 @@ Using **FFmpeg 1.1.3**
     c) Format (output):
 
          ``ffmpeg -i input.avi output.($format$)``
-  2. Sequence:shot
+  **2. Sequence:shot**
+
     a) Video:
       * load-filename:
 
@@ -58,5 +60,5 @@ Concatenating different videos looks exactly the same as the VideoRepeat effect.
 Compression
 =====================
 
-To not compress files, one can use the **-c copy** parameter of FFmpeg. 
-To achieve a smaller size of the video, one must choose a codec from the rich list of available codecs from FFmpeg's library.
+To not compress files, one can use the **-c copy** parameter of **FFmpeg**. 
+To achieve a smaller size of the video, one must choose a codec from the rich list of available codecs from **FFmpeg**'s library.
