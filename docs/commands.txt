@@ -2,6 +2,7 @@ FFMPEG commands
 =================
 
 VideoGen is only a python wrapper for FFMPEG platform. Below are presented FFMPEG commands that we will utilize in our project.
+Using **ffmpeg 1.1.3**
 
   1. Configuration
     a) Frame
@@ -19,17 +20,30 @@ VideoGen is only a python wrapper for FFMPEG platform. Below are presented FFMPE
     c) Format (output):
          ``ffmpeg -i input.avi output.($format$)``
   2. sequence:shot
-    a) video
-      * load-filename
+    a) video:
+      * load-filename:
         ``ffmpeg -i input.avi output.avi``
       * effect type=VideoRange (from, to):
         ``ffmpeg -i input.avi -ss 10 -t 30 output.avi //zaczynamy od 10 sekundy, przez 30 sekund``
-      * effect type=VideoRepeat // NIEPRZETESTOWANE
-        ``ffmpeg -i input1.mp4 -i input2.webm -filter_complex '[0:0] [0:1] [1:0] [1:1] concat=n=2:v=1:a=1 [v] [a]' -map '[v]' -map '[a]' <encoding options> output.mkv``
-    b) audio
-      * load type=VideoFile
+      * effect type=VideoRepeat:
+        | ``ffmpeg -i input1.mp4 -i input1.mp4 -filter_complex 'concat=n=2:v=1:a=1 [v] [a]' -map '[v]' -map '[a]' <encoding options> output.avi``
+		| Attention! Videos must have the exact same size to match
+    b) audio:
+      * load type=VideoFile:
         ``ffmpeg -i input.avi -vn output.mp3``
-      * load type=AudioFile and Image as background
+      * load type=AudioFile and Image as background:
         ``ffmpeg -loop 1 -shortest -i image.fmt -i audio.fmt output.avi``
-    c) video and audio to one file
-       ``ffmpeg [(-shortest?)] -i audio.mp3 -i vid.mp4 -map 0:0 -map 1:0 output.avi``
+    c) video and audio to one file:
+       ``ffmpeg -i audio.mp3 -i vid.mp4 -map 0:0 -map 1:0 output.avi``
+    d) silence effect:
+       ``ffmpeg -i vid.mp4 -map 0:0 output.avi``
+	   
+To achieve a solid-color background, videogen needs to create an image of desired size and will use it as a background.
+Concatenating different videos looks exactly the same as the VideoRepeat effect.
+
+	   
+Compression
+=====================
+
+To not compress files, one can use the **-c copy** parameter of ffmpeg. 
+To achieve a smaller size of the video, one must choose a codec from the rich list of available codecs from ffmpeg's library.
