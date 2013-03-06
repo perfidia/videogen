@@ -9,8 +9,8 @@ Welcome to VideoGen's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
-
+   :maxdepth: 2 
+   commands
 
 
 Indices and tables

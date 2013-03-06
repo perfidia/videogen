@@ -1,0 +1,35 @@
+FFMPEG commands 
+=================
+
+VideoGen is only a python wrapper for FFMPEG platform. Below are presented FFMPEG commands that we will utilize in our project.
+
+  1. Configuration
+    a) Frame
+      * Resolution:
+        ``ffmpeg -i input.avi -s 800x600 output.avi``
+      * Framerate: 
+	    ``ffmpeg -i input.avi -r 12 output.avi``
+      * Aspect ratio:
+	    ``ffmpeg -i input.avi -aspect 4:3 output.avi``
+    b) Codecs
+      * video:
+        ``ffmpeg -i input.avi -vcodec mpeg4 output.avi``
+      * audio:
+	    ``ffmpeg -i input.avi -acodec libmp3lame output.avi``
+    c) Format (output):
+         ``ffmpeg -i input.avi output.($format$)``
+  2. sequence:shot
+    a) video
+      * load-filename
+        ``ffmpeg -i input.avi output.avi``
+      * effect type=VideoRange (from, to):
+        ``ffmpeg -i input.avi -ss 10 -t 30 output.avi //zaczynamy od 10 sekundy, przez 30 sekund``
+      * effect type=VideoRepeat // NIEPRZETESTOWANE
+        ``ffmpeg -i input1.mp4 -i input2.webm -filter_complex '[0:0] [0:1] [1:0] [1:1] concat=n=2:v=1:a=1 [v] [a]' -map '[v]' -map '[a]' <encoding options> output.mkv``
+    b) audio
+      * load type=VideoFile
+        ``ffmpeg -i input.avi -vn output.mp3``
+      * load type=AudioFile and Image as background
+        ``ffmpeg -loop 1 -shortest -i image.fmt -i audio.fmt output.avi``
+    c) video and audio to one file
+       ``ffmpeg [(-shortest?)] -i audio.mp3 -i vid.mp4 -map 0:0 -map 1:0 output.avi``
