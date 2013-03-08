@@ -30,3 +30,34 @@ class FFMpegVisitor(Visitor):
             self._options = self._options + " -s " + str(node.x) + "x" + str(node.y)
         if node.fps != None:
             self._options = self._options + " -r " + str(node.fps)
+            
+    def visit_range_node(self, node):
+        if node.start != None:
+            self._options = self._options + " -ss " + str(node.start)
+        if node.duration != None:
+            self._options = self._options + " -t " + str(node.duration)
+
+    def visit_image_node(self, node):
+        self._inputs = self._inputs + " -loop 1 -i " + node.path
+        self._options = self._options + " -shortest"
+
+    def visit_silence_node(self, node):
+        self._options = self._options + " -vn"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

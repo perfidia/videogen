@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 
-from ffmpeg_visitor import FFMpegVisitor
-from program_node import ProgramNode
-from input_file_node import InputFileNode
-from output_file_node import OutputFileNode
-from configuration_node import ConfigurationNode
+from videogen import *
 
 def main():
     visitor = FFMpegVisitor()
@@ -14,6 +10,9 @@ def main():
     root.add_child(InputFileNode("mov2.avi"))
     out = OutputFileNode("out.avi")
     out.add_child(ConfigurationNode(800, 600, 24))
+    out.add_child(RangeNode(2, 10))
+    root.add_child(ImageNode("ijo.png"))
+    out.add_child(SilenceNode())
     
     root.add_child(out)
     
@@ -25,3 +24,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
