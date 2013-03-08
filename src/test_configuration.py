@@ -17,7 +17,7 @@ class TestConfiguration(unittest.TestCase):
         self.root.accept(v)
         command = v.get_command()
         
-        self.assertEqual("ffmpeg  -i input1.avi  -s 640x360 -r 30 output.avi", command, "test_whole_config")
+        self.assertEqual("ffmpeg -i input1.avi -s 640x360 -r 30 output.avi", command, "test_whole_config")
         
     def test_resolution_config(self):
         config = ConfigurationNode(640, 360, None)
@@ -27,7 +27,7 @@ class TestConfiguration(unittest.TestCase):
         self.root.accept(v)
         command = v.get_command()
         
-        self.assertEqual("ffmpeg  -i input1.avi  -s 640x360 output.avi", command, "test_resolution_config")
+        self.assertEqual("ffmpeg -i input1.avi -s 640x360 output.avi", command, "test_resolution_config")
         
     def test_fps_config(self):
         config = ConfigurationNode(None, None, 24)
@@ -37,7 +37,7 @@ class TestConfiguration(unittest.TestCase):
         self.root.accept(v)
         command = v.get_command()
         
-        self.assertEqual("ffmpeg  -i input1.avi  -r 24 output.avi", command, "test_fps_config")
+        self.assertEqual("ffmpeg -i input1.avi -r 24 output.avi", command, "test_fps_config")
         
     
     

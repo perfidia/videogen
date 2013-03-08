@@ -17,7 +17,7 @@ class TestConfiguration(unittest.TestCase):
         self.root.accept(v)
         command = v.get_command()
         
-        self.assertEqual("ffmpeg  -i input1.avi  -ss 10 -t 20 output.avi", command, "test_whole_config")
+        self.assertEqual("ffmpeg -i input1.avi -t 20 -ss 10 output.avi", command, "test_whole_config")
         
     def test_range_from(self):
         range = RangeNode(10, None)
@@ -27,7 +27,7 @@ class TestConfiguration(unittest.TestCase):
         self.root.accept(v)
         command = v.get_command()
         
-        self.assertEqual("ffmpeg  -i input1.avi  -ss 10 output.avi", command, "test_resolution_config")
+        self.assertEqual("ffmpeg -i input1.avi -ss 10 output.avi", command, "test_resolution_config")
         
     def test_fps_config(self):
         range = RangeNode(None, 30)
@@ -37,7 +37,7 @@ class TestConfiguration(unittest.TestCase):
         self.root.accept(v)
         command = v.get_command()
         
-        self.assertEqual("ffmpeg  -i input1.avi  -t 30 output.avi", command, "test_fps_config")
+        self.assertEqual("ffmpeg -i input1.avi -t 30 output.avi", command, "test_fps_config")
         
     
     
