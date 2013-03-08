@@ -6,3 +6,4 @@ from configuration_node import ConfigurationNode
 from range_node import RangeNode
 from image_node import ImageNode
 from silence_node import SilenceNode
+from repeat_node import RepeatNode

@@ -2,16 +2,15 @@
 
 from visitor import Visitor
 
-from program_node import ProgramNode
-
 import copy
 
 class FFMpegVisitor(Visitor):
     def __init__(self):
-        self._program = "";
-        self._inputs = [];
-        self._output = "";
-        self._options = {};
+        self._program = ""
+        self._inputs = []
+        self._output = ""
+        self._options = {}
+        self._repeat_times = 0
         
         self._tempInputOptionsMap = {}
     
@@ -46,7 +45,23 @@ class FFMpegVisitor(Visitor):
         if options != "":
             command = command + space
             
-        command = command + self._output
+        if self._repeat_times > 1:
+            temp_file = "DEADBEEF" + self._output
+            command = command + temp_file
+            
+            repeat_command = self._program
+            
+            for i in range(0, self._repeat_times):
+                repeat_command = repeat_command + " -i " + temp_file
+                
+            repeat_command = repeat_command + space + "-filter_complex 'concat=n=" + str(self._repeat_times)
+            repeat_command = repeat_command + ":v=1:a=1 [v] [a]' -map '[v]' -map '[a]'"
+            
+            repeat_command = repeat_command + space + self._output
+            
+            command = command + space + "&&" + space + repeat_command
+        else:
+            command = command + self._output
         
         return command
     
@@ -80,6 +95,9 @@ class FFMpegVisitor(Visitor):
 
     def visit_silence_node(self, node):
         self._options["-vn"] = ""
+        
+    def visit_repeat_node(self, node):
+        self._repeat_times = node.times
 
 
 

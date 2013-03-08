@@ -13,6 +13,7 @@ def main():
     out.add_child(RangeNode(2, 10))
     root.add_child(ImageNode("ijo.png"))
     out.add_child(SilenceNode())
+    out.add_child(RepeatNode(3))
     
     root.add_child(out)
     
