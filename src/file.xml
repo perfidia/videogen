@@ -1,0 +1,30 @@
+<videogen>
+	<configuration>
+		<frame>
+			<size>
+				<width>640</width>
+				<height>360</height>
+			</size>
+			<rate>
+				30
+			</rate>
+		</frame>
+	</configuration>
+	<sequence>
+		<shot>
+			<video>
+				<load type="VideoFile">
+					video.avi
+				</load>
+				<effect type="VideoRange">
+					<unit>s</unit>
+					<from>10</from>
+					<to>20</to>
+				</effect>
+				<effect type="VideoRepeat">
+					<times>2</times>
+				</effect>
+			</video>
+		</shot>
+	</sequence>
+</videogen>

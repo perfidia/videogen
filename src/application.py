@@ -3,8 +3,19 @@
 from videogen import *
 
 def main():
-    visitor = FFMpegVisitor()
+    vidgen_parser = VideoGenOptionParser()
+    options = vidgen_parser.get_options()
     
+    trees = ShotsTrees(options)
+    shots = trees.create()
+    
+    for shot in shots:
+        visitor = FFMpegVisitor()
+        shot.accept(visitor)
+        print visitor.get_command()
+    
+    
+    '''
     root = ProgramNode("ffmpeg")
     root.add_child(InputFileNode("mov.avi"))
     root.add_child(InputFileNode("mov2.avi"))
@@ -20,7 +31,8 @@ def main():
     root.accept(visitor)
     
     print visitor.get_command()
-    
+    '''
+        
     return
 
 if __name__ == "__main__":

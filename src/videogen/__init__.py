@@ -7,3 +7,5 @@ from range_node import RangeNode
 from image_node import ImageNode
 from silence_node import SilenceNode
 from repeat_node import RepeatNode
+from videogen_option_parser import VideoGenOptionParser
+from shots_trees import ShotsTrees

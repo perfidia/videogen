@@ -25,6 +25,9 @@ class Visitor(object):
     def visit_silence_node(self, node):
         pass
     
+    def visit_repeat_node(self, node):
+        pass
+    
 class Node(object):
     def __init__(self):
         self._children = []
@@ -34,3 +37,13 @@ class Node(object):
     
     def add_child(self, child):
         self._children.append(child)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
