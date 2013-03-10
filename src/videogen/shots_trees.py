@@ -10,7 +10,7 @@ class ShotsTrees(object):
         self._dom = None
         if self._options.conf != None:
             self._dom = minidom.parse(self._options.conf)
-        self._program = "ffmpeg"
+        self._program = self._options.encoder
         
     def create(self):
         if self._dom == None:

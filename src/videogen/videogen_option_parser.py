@@ -10,6 +10,7 @@ class VideoGenOptionParser(object):
         self._parser.add_option("-o", "--output", help="place where to generate output file (default is ./output.avi)", dest="output")
         self._parser.add_option("-t", "--tmp", help="directory for intermediate files (default is /tmp/)", dest="tmp")
         self._parser.add_option("-a", "--attach", help="a string which should be added before each file that is loaded", dest="attach")
+        self._parser.add_option("-e", "--encoder", help="location of ffmpeg encoder", dest="encoder")
         
         self._options = {}
         (self._options, args) = self._parser.parse_args()
@@ -22,6 +23,9 @@ class VideoGenOptionParser(object):
             
         if self._options.attach == None:
             self._options.attach = ""
+            
+        if self._options.encoder == None:
+            self._options.encoder = "ffmpeg"
         
     def get_options(self):
         return self._options

@@ -3,6 +3,7 @@
 from visitor import Visitor
 
 import copy
+import os
 
 class FFMpegVisitor(Visitor):
     def __init__(self):
@@ -46,7 +47,9 @@ class FFMpegVisitor(Visitor):
             command = command + space
             
         if self._repeat_times > 1:
-            temp_file = "DEADBEEF" + self._output
+            (directory_name, file_name) = os.path.split(self._output)
+            
+            temp_file = directory_name + "\\DEADBEEF" + file_name
             command = command + temp_file
             
             repeat_command = self._program
@@ -54,8 +57,8 @@ class FFMpegVisitor(Visitor):
             for i in range(0, self._repeat_times):
                 repeat_command = repeat_command + " -i " + temp_file
                 
-            repeat_command = repeat_command + space + "-filter_complex 'concat=n=" + str(self._repeat_times)
-            repeat_command = repeat_command + ":v=1:a=1 [v] [a]' -map '[v]' -map '[a]'"
+            repeat_command = repeat_command + space + "-filter_complex \"concat=n=" + str(self._repeat_times)
+            repeat_command = repeat_command + ":v=1:a=1 [v] [a]\" -map \"[v]\" -map \"[a]\""
             
             repeat_command = repeat_command + space + self._output
             

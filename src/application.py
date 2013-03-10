@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from videogen import *
+import os
 
 def main():
     vidgen_parser = VideoGenOptionParser()
@@ -12,7 +13,9 @@ def main():
     for shot in shots:
         visitor = FFMpegVisitor()
         shot.accept(visitor)
-        print visitor.get_command()
+        command = visitor.get_command()
+        print command
+        os.system(command)
     
     
     '''
