@@ -37,18 +37,22 @@ class ShotsTrees(object):
                     attr = effect.getAttributeNode("type").nodeValue
                     
                     if attr == "VideoRange":
+                        units = None
                         start = None
                         end = None
                         
+                        for i in effect.getElementsByTagName("unit"):
+                            units = i.firstChild.data
+                            print units
+                        
                         for i in effect.getElementsByTagName("from"):
-                            for j in i.childNodes:
-                                start = j.data.strip()
-                                
+                                start = i.firstChild.data.strip()
+                                print start
                         for i in effect.getElementsByTagName("to"):
-                            for j in i.childNodes:
-                                end = j.data.strip()
+                                end = i.firstChild.data.strip()
+                                print end
                                 
-                        range = RangeNode(start, end)
+                        range = RangeNode(start, self.calculate_length(start, end, units))
                         temp_output.add_child(range)
                     
                     elif attr == "VideoRepeat":
@@ -65,6 +69,24 @@ class ShotsTrees(object):
         return shots
 
 
+    def calculate_length(self, start, end, units):
+        if units == "s":         
+            return int(end)-int(start)
+        elif units == "m":
+            return (int(end)-int(start))*60
+        elif units == "m:s":
+            startTemp = start.split(":")
+            startMinutes = int(startTemp[0])
+            startSeconds = int(startTemp[1]) + startMinutes*60
+            print startSeconds
+            endTemp = end.split(":")
+            endMinutes = int(endTemp[0])
+            endSeconds = int(endTemp[1])+endMinutes*60 
+            print endSeconds
+            return endSeconds - startSeconds
+            
+
+             
 
 
 
