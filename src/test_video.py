@@ -1,13 +1,13 @@
 import unittest
 from videogen import *
 
-class TestConfiguration(unittest.TestCase):
+class TestVideo(unittest.TestCase):
     def setUp(self):
         self.root = ProgramNode("ffmpeg")
         self.input1 = InputFileNode("input1.avi")
         self.output = OutputFileNode("output.avi")
         self.root.add_child(self.input1)
-        self.root.add_child(self.output)
+        self.root.add_child(self.output)               
         
     def test_range_from_to(self):
         range = RangeNode(10, 20)
@@ -38,6 +38,17 @@ class TestConfiguration(unittest.TestCase):
         command = v.get_command()
         
         self.assertEqual("ffmpeg -i input1.avi -t 30 output.avi", command, "test_fps_config")
+        
+    def test_repeat_config(self):
+        repeat = RepeatNode(2)
+        self.output.add_child(repeat)
+        
+        v = FFMpegVisitor()
+        self.root.accept(v)
+        command = v.get_command()
+        
+        #self.assertEqual("ffmpeg -i input1.avi -t 30 output.avi", command, "test_fps_config")
+        print command
         
     
     
