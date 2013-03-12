@@ -27,7 +27,10 @@ class FFMpegVisitor(Visitor):
                 if inp[option] != "":
                     inputs = inputs + space + inp[option]
             
-            inputs = inputs + space + "-i" + space + input["path"]
+            if "path" in input:
+                inputs = inputs + space + "-i" + space + input["path"]
+            elif "color" in input:
+                inputs = inputs + space + "-f lavfi -i" + space + "\"color=c=" + input["color"] + "\""
             
         options = ""
             
@@ -101,6 +104,13 @@ class FFMpegVisitor(Visitor):
         
     def visit_repeat_node(self, node):
         self._repeat_times = node.times
+        
+    def visit_color_node(self, node):
+        self._inputs.append({ "options": copy.deepcopy(self._tempInputOptionsMap), "color": node.color })
+        self._tempInputOptionsMap = {}
+        
+    def visit_concat_node(self, node):
+        pass
 
 
 

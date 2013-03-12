@@ -28,6 +28,12 @@ class Visitor(object):
     def visit_repeat_node(self, node):
         pass
     
+    def visit_color_node(self, node):
+        pass
+    
+    def visit_concat_node(self, node):
+        pass
+    
 class Node(object):
     def __init__(self):
         self._children = []
