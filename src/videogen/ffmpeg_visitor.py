@@ -111,6 +111,9 @@ class FFMpegVisitor(Visitor):
         
     def visit_concat_node(self, node):
         pass
+    
+    def visit_audio_node(self, node):
+        self._options["-an"] = ""
 
 
 

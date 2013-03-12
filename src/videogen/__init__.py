@@ -11,3 +11,4 @@ from videogen_option_parser import VideoGenOptionParser
 from shots_trees import ShotsTrees
 from concat_node import ConcatNode
 from color_node import ColorNode
+from audio_node import AudioNode

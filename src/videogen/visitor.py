@@ -34,6 +34,9 @@ class Visitor(object):
     def visit_concat_node(self, node):
         pass
     
+    def visit_audio_node(self, node):
+        pass
+    
 class Node(object):
     def __init__(self):
         self._children = []
