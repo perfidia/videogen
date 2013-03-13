@@ -70,6 +70,9 @@ class FFMpegVisitor(Visitor):
             repeat_command = repeat_command + space + "-filter_complex \"concat=n=" + str(self._repeat_times)
             repeat_command = repeat_command + ":v=1:a=1 [v] [a]\" -map \"[v]\" -map \"[a]\""
             
+            if "-y" in self._options:
+                repeat_command = repeat_command + space + "-y"
+            
             repeat_command = repeat_command + space + self._output
             
             command = command + space + "&&" + space + repeat_command
@@ -80,6 +83,9 @@ class FFMpegVisitor(Visitor):
     
     def visit_program_node(self, node):
         self._program = node.path
+        
+        if node.overwrite == True:
+            self._options["-y"] = ""
     
     def visit_input_file_node(self, node):
         print node.path

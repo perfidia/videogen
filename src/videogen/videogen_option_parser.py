@@ -11,6 +11,7 @@ class VideoGenOptionParser(object):
         self._parser.add_option("-t", "--tmp", help="directory for intermediate files (default is /tmp/)", dest="tmp")
         self._parser.add_option("-a", "--attach", help="a string which should be added before each file that is loaded", dest="attach")
         self._parser.add_option("-e", "--encoder", help="location of ffmpeg encoder", dest="encoder")
+        self._parser.add_option("-y", action="store_true", help="do not ask to overwrite files", dest="overwrite")
         
         self._options = {}
         (self._options, args) = self._parser.parse_args()
@@ -26,6 +27,9 @@ class VideoGenOptionParser(object):
             
         if self._options.encoder == None:
             self._options.encoder = "ffmpeg"
+            
+        if self._options.overwrite == None:
+            self._options.overwrite = False
         
     def get_options(self):
         return self._options

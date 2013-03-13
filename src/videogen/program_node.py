@@ -7,6 +7,7 @@ class ProgramNode(Node):
     def __init__(self, path):
         self._children = []
         self.path = path
+        self.overwrite = False
         
     def accept(self, v):
         for child in self._children:

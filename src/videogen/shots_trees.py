@@ -27,6 +27,7 @@ class ShotsTrees(object):
         
         for node in self._dom.getElementsByTagName("shot"):
             shot = ProgramNode(self._program)
+            shot.overwrite = self._options.overwrite
             num = num + 1
             temp_output = OutputFileNode(self._options.tmp+str(num)+".avi")
             temp_output.add_child(configuration_node)
