@@ -59,7 +59,7 @@ class FFMpegVisitor(Visitor):
         if self._repeat_times > 1:
             (directory_name, file_name) = os.path.split(self._output)
             
-            temp_file = directory_name + "\\DEADBEEF" + file_name
+            temp_file = directory_name + os.pathsep + "DEADBEEF" + file_name
             command = command + temp_file
             
             repeat_command = self._program
