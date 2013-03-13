@@ -94,6 +94,21 @@ class ShotsTrees(object):
                     audio_input = InputFileNode(filename.data.strip(), TYPE_AUDIO)
                     audio_input.add_child(AudioNode())
                     shot.add_child(audio_input)
+                    
+        for params in audio.getElementsByTagName("generate"):
+            units = None
+            duration = None
+            
+            for i in params.getElementsByTagName("unit"):
+                units = i.firstChild.data
+            
+            for i in params.getElementsByTagName("duration"):
+                duration = i.firstChild.data.strip()
+                    
+            silence = SilenceNode()
+            range = RangeNode(0, self.calculate_length("0", duration, units))
+            temp_output.add_child(range)
+            temp_output.add_child(silence)
         
         for effect in audio.getElementsByTagName("effect"):
             attr = effect.getAttributeNode("type").nodeValue

@@ -59,7 +59,7 @@ class FFMpegVisitor(Visitor):
         if self._repeat_times > 1:
             (directory_name, file_name) = os.path.split(self._output)
             
-            temp_file = directory_name + os.pathsep + "DEADBEEF" + file_name
+            temp_file = directory_name + os.sep + "DEADBEEF" + file_name
             command = command + temp_file
             
             repeat_command = self._program
@@ -143,7 +143,7 @@ class FFMpegVisitor(Visitor):
         self._input_number = self._input_number + 1
 
     def visit_silence_node(self, node):
-        self._options["-vn"] = ""
+        self._options["-an"] = ""
         
     def visit_repeat_node(self, node):
         self._repeat_times = node.times

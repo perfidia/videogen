@@ -55,5 +55,18 @@
 				</load>
 			</audio>
 		</shot>
+		<shot>
+			<image>
+				<load type="ImageFile">
+					../data/cc.jpg
+				</load>
+			</image>
+			<audio>
+				<generate type="SilenceGenerate">
+					<unit>s</unit>
+					<duration>10</duration>
+				</generate>
+			</audio>
+		</shot>
 	</sequence>
 </videogen>
