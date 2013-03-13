@@ -91,8 +91,14 @@ class ShotsTrees(object):
         for load in audio.getElementsByTagName("load"):
             for filename in load.childNodes:
                 if filename.nodeType == filename.TEXT_NODE:
-                    audio_input = InputFileNode(filename.data.strip(), TYPE_AUDIO)
-                    audio_input.add_child(AudioNode())
+                    audio_input = None
+                    if load.getAttributeNode("type").nodeValue.strip() == "AudioFile":
+                        audio_input = InputFileNode(filename.data.strip(), TYPE_AUDIO)
+                        audio_input.add_child(AudioNode())
+                    elif load.getAttributeNode("type").nodeValue.strip() == "VideoFile":
+                        audio_input = InputFileNode(filename.data.strip(), TYPE_VIDEO)
+                        audio_input.add_child(AudioNode())
+                        
                     shot.add_child(audio_input)
                     
         for params in audio.getElementsByTagName("generate"):
