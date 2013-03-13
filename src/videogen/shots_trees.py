@@ -29,7 +29,7 @@ class ShotsTrees(object):
             shot = ProgramNode(self._program)
             shot.overwrite = self._options.overwrite
             num = num + 1
-            temp_output = OutputFileNode(self._options.tmp+str(num)+".avi")
+            temp_output = OutputFileNode(self._options.tmp + self._options.attach + str(num)+".avi")
             temp_output.add_child(configuration_node)
             shot.add_child(temp_output)
             
