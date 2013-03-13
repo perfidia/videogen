@@ -1,0 +1,78 @@
+<videogen>
+	<configuration>
+		<frame>
+			<size>
+				<width>640</width>
+				<height>360</height>
+			</size>
+			<rate>
+				30
+			</rate>
+		</frame>
+	</configuration>
+	<sequence>
+		<shot>
+			<video>
+				<load type="VideoFile">
+					../data/sintel_trailer-1080p.mp4
+				</load>
+				<effect type="VideoRange">
+					<unit>s</unit>
+					<from>1</from>
+					<to>3</to>
+				</effect>
+				<effect type="VideoRepeat">
+					<times>3</times>
+				</effect>
+			</video>
+		</shot>
+		<shot>
+			<image>
+				<load type="ImageFile">
+					../data/cc.jpg
+				</load>
+			</image>
+			<audio>
+				<load type="AudioFile">
+					../data/dirty_fingernails.mp3
+				</load>
+				<effect type="AudioRange">
+					<unit>m:s</unit>
+					<from>0:01</from>
+					<to>0:02</to>
+				</effect>
+				<effect type="AudioRepeat">
+					<times>10</times>
+				</effect>
+			</audio>
+		</shot>
+		<shot>
+			<image>
+				<generate type="BackgroundGenerate">
+					<color>green</color>
+				</generate>
+			</image>
+			<audio>
+				<load type="AudioFile">
+					../data/dirty_fingernails.mp3
+				</load>
+				<effect type="AudioRange">
+					<unit>m:s</unit>
+					<from>0:02</from>
+					<to>0:03</to>
+				</effect>
+				<effect type="AudioRepeat">
+					<times>10</times>
+				</effect>
+			</audio>
+		</shot>
+		<shot>
+			<video>
+				<load type="VideoFile">
+						../data/sintel_trailer-1080p.mp4
+				</load>
+			</video>
+		</shot>
+				
+	</sequence>
+</videogen>
