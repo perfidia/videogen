@@ -96,7 +96,7 @@ class ShotsTrees(object):
                     shot.add_child(audio_input)
         
         for effect in audio.getElementsByTagName("effect"):
-            attr = audio.getAttributeNode("type").nodeValue
+            attr = effect.getAttributeNode("type").nodeValue
             
             if attr == "AudioRange":
                 units = None
