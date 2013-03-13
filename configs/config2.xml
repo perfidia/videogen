@@ -43,5 +43,17 @@
 				</load>
 			</audio>
 		</shot>
+		<shot>
+			<image>
+				<load type="ImageFile">
+					../data/cc.jpg
+				</load>
+			</image>
+			<audio>
+				<load type="AudioFile">
+					../data/dirty_fingernails.mp3
+				</load>
+			</audio>
+		</shot>
 	</sequence>
 </videogen>

@@ -5,9 +5,11 @@ from constants import *
 
 class ImageNode(InputFileNode):
     def __init__(self, path):
-        super(ImageNode, self).__init__(path)
-        self.type = TYPE_VIDEO
+        super(ImageNode, self).__init__(path, TYPE_VIDEO)
 
     def accept(self, v):
+        for child in self._children:
+            child.accept(v)
+            
         v.visit_image_node(self)
         
