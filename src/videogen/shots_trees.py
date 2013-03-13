@@ -3,6 +3,10 @@
 import copy
 from xml.dom import minidom
 from videogen import *
+from constants import *
+from video_node import VideoNode
+from audio_node import AudioNode
+from color_node import ColorNode
 
 class ShotsTrees(object):
     def __init__(self, options):
@@ -19,55 +23,140 @@ class ShotsTrees(object):
         shots = []
         num = 0
         
+        configuration_node = self.get_configuration_node()
+        
         for node in self._dom.getElementsByTagName("shot"):
             shot = ProgramNode(self._program)
             num = num + 1
             temp_output = OutputFileNode(self._options.tmp+str(num)+".avi")
+            temp_output.add_child(configuration_node)
             shot.add_child(temp_output)
             
             for video in node.getElementsByTagName("video"):
-                video_input = None
-                for load in video.getElementsByTagName("load"):
-                    for filename in load.childNodes:
-                        if filename.nodeType == filename.TEXT_NODE:
-                            video_input = InputFileNode(filename.data.strip())
-                            shot.add_child(video_input)
+                self._parse_video(video, shot, temp_output)
                 
-                for effect in video.getElementsByTagName("effect"):
-                    attr = effect.getAttributeNode("type").nodeValue
-                    
-                    if attr == "VideoRange":
-                        units = None
-                        start = None
-                        end = None
-                        
-                        for i in effect.getElementsByTagName("unit"):
-                            units = i.firstChild.data
-                            print units
-                        
-                        for i in effect.getElementsByTagName("from"):
-                                start = i.firstChild.data.strip()
-                                print start
-                        for i in effect.getElementsByTagName("to"):
-                                end = i.firstChild.data.strip()
-                                print end
-                                
-                        range = RangeNode(start, self.calculate_length(start, end, units))
-                        temp_output.add_child(range)
-                    
-                    elif attr == "VideoRepeat":
-                        times = 0
-                        for i in effect.getElementsByTagName("times"):
-                            for j in i.childNodes:
-                                times = j.data.strip()
-                                
-                        repeat = RepeatNode(int(times))
-                        temp_output.add_child(repeat)
+            for audio in node.getElementsByTagName("audio"):
+                self._parse_audio(audio, shot, temp_output)
+                
+            for image in node.getElementsByTagName("image"):
+                self._parse_image(image, shot, temp_output)
             
             shots.append(shot)
             
         return shots
+    
+    def _parse_video(self, video, shot, temp_output):
+        video_input = None
+        for load in video.getElementsByTagName("load"):
+            for filename in load.childNodes:
+                if filename.nodeType == filename.TEXT_NODE:
+                    video_input = InputFileNode(filename.data.strip(), TYPE_VIDEO)
+                    video_input.add_child(VideoNode())
+                    video_input.add_child(AudioNode())
+                    shot.add_child(video_input)
+        
+        for effect in video.getElementsByTagName("effect"):
+            attr = effect.getAttributeNode("type").nodeValue
+            
+            if attr == "VideoRange":
+                units = None
+                start = None
+                end = None
+                
+                for i in effect.getElementsByTagName("unit"):
+                    units = i.firstChild.data
+                    print units
+                
+                for i in effect.getElementsByTagName("from"):
+                        start = i.firstChild.data.strip()
+                        print start
+                for i in effect.getElementsByTagName("to"):
+                        end = i.firstChild.data.strip()
+                        print end
+                        
+                range = RangeNode(start, self.calculate_length(start, end, units))
+                temp_output.add_child(range)
+            
+            elif attr == "VideoRepeat":
+                times = 0
+                for i in effect.getElementsByTagName("times"):
+                    for j in i.childNodes:
+                        times = j.data.strip()
+                        
+                repeat = RepeatNode(int(times))
+                temp_output.add_child(repeat)
+                
+    def _parse_audio(self, audio, shot, temp_output):
+        audio_input = None
+        for load in audio.getElementsByTagName("load"):
+            for filename in load.childNodes:
+                if filename.nodeType == filename.TEXT_NODE:
+                    audio_input = InputFileNode(filename.data.strip(), TYPE_AUDIO)
+                    audio_input.add_child(AudioNode())
+                    shot.add_child(audio_input)
+        
+        for effect in audio.getElementsByTagName("effect"):
+            attr = audio.getAttributeNode("type").nodeValue
+            
+            if attr == "AudioRange":
+                units = None
+                start = None
+                end = None
+                
+                for i in effect.getElementsByTagName("unit"):
+                    units = i.firstChild.data
+                    print units
+                
+                for i in effect.getElementsByTagName("from"):
+                        start = i.firstChild.data.strip()
+                        print start
+                for i in effect.getElementsByTagName("to"):
+                        end = i.firstChild.data.strip()
+                        print end
+                        
+                range = RangeNode(start, self.calculate_length(start, end, units))
+                temp_output.add_child(range)
+            
+            elif attr == "AudioRepeat":
+                times = 0
+                for i in effect.getElementsByTagName("times"):
+                    for j in i.childNodes:
+                        times = j.data.strip()
+                        
+                repeat = RepeatNode(int(times))
+                temp_output.add_child(repeat)
+                
+    def _parse_image(self, image, shot, temp_output):
+        image_input = None
+        for load in image.getElementsByTagName("load"):
+            for filename in load.childNodes:
+                if filename.nodeType == filename.TEXT_NODE:
+                    image_input = ImageNode(filename.data.strip())
+                    image_input.add_child(VideoNode())
+                    shot.add_child(image_input)
+                    
+        for generate in image.getElementsByTagName("generate"):
+            for color in generate.getElementsByTagName("color"):
+                color_input = ColorNode(color.firstChild.data.strip())
+                color_input.add_child(VideoNode())
+                shot.add_child(color_input)
 
+    def get_configuration_node(self):
+        width = None
+        height = None
+        fps = None
+        
+        for node in self._dom.getElementsByTagName("configuration"):
+            for frame in node.getElementsByTagName("frame"):
+                for i in frame.getElementsByTagName("width"):
+                    width = int(i.firstChild.data.strip())
+                for i in frame.getElementsByTagName("height"):
+                    height = int(i.firstChild.data.strip())
+            for rate in node.getElementsByTagName("rate"):
+                fps = int(rate.firstChild.data.strip())
+            
+        configuration_node = ConfigurationNode(width, height, fps)
+        return configuration_node
 
     def calculate_length(self, start, end, units):
         if units == "s":         

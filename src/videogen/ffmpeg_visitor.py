@@ -82,6 +82,9 @@ class FFMpegVisitor(Visitor):
         self._program = node.path
     
     def visit_input_file_node(self, node):
+        print node.path
+        print "map audio: " + str(self._map_audio)
+        print "map video: " + str(self._map_video)
         if self._map_audio == True:
             type = 0
             if node.type == TYPE_VIDEO:
