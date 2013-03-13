@@ -20,16 +20,20 @@ class TestAudio(unittest.TestCase):
         #self.assertEqual("ffmpeg -i input1.avi -ss 10 output.avi", command, "test_resolution_config")
         
     def test_audio_from_video(self):
-        #colorInput = ColorNode("#4444DD")
-        #self.root.add_child(colorInput)
-        videoInput = InputFileNode("video.mp4")
+        colorInput = ColorNode("#4444DD")
+        self.root.add_child(colorInput)
+        videoInput = InputFileNode("video.mp4", TYPE_VIDEO)
         self.root.add_child(videoInput)
-        self.root.add_child(AudioNode())
+        videoInput.add_child(AudioNode())
+        colorInput.add_child(VideoNode())
+        
         
         v = FFMpegVisitor()
         self.root.accept(v)
         command = v.get_command()
         print command
+        
+    
     
 if __name__ == "__main__":
     unittest.main()

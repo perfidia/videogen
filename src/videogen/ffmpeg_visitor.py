@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from visitor import Visitor
+from constants import *
 
 import copy
 import os
@@ -12,12 +13,18 @@ class FFMpegVisitor(Visitor):
         self._output = ""
         self._options = {}
         self._repeat_times = 0
+        self._input_number = 0
+        self._map_audio = False
+        self._map_video = False
         
         self._tempInputOptionsMap = {}
     
     def get_command(self):
         space = " "
         inputs = ""
+        
+        if self._input_number > 1:
+            self._options["-shortest"] = ""
         
         for input in self._inputs:
             inp = input["options"]
@@ -75,8 +82,25 @@ class FFMpegVisitor(Visitor):
         self._program = node.path
     
     def visit_input_file_node(self, node):
+        if self._map_audio == True:
+            type = 0
+            if node.type == TYPE_VIDEO:
+                type = 1
+            elif node.type == TYPE_AUDIO:
+                type = 0
+            self._options["-map " + str(self._input_number) + ":" + str(type)] = ""
+            self._map_audio = False
+        if self._map_video == True:
+            type = 0
+            if node.type == TYPE_VIDEO:
+                type = 0
+            self._options["-map " + str(self._input_number) + ":" + str(type)] = ""
+            self._map_video = False
+        
         self._inputs.append({ "options": copy.deepcopy(self._tempInputOptionsMap), "path": node.path })
         self._tempInputOptionsMap = {}
+        
+        self._input_number = self._input_number + 1
     
     def visit_output_file_node(self, node):
         self._output = node.path
@@ -94,10 +118,26 @@ class FFMpegVisitor(Visitor):
             self._options["-t"] = str(node.duration)
 
     def visit_image_node(self, node):
+        if self._map_audio == True:
+            type = 0
+            if node.type == TYPE_VIDEO:
+                type = 1
+            elif node.type == TYPE_AUDIO:
+                type = 0
+            self._options["-map " + str(self._input_number) + ":" + str(type)] = ""
+            self._map_audio = False
+        if self._map_video == True:
+            type = 0
+            if node.type == TYPE_VIDEO:
+                type = 0
+            self._options["-map " + str(self._input_number) + ":" + str(type)] = ""
+            self._map_video = False
+            
         self._tempInputOptionsMap["-loop"] = "1"
         self._options["-shortest"] = ""
         self._inputs.append({ "options": copy.deepcopy(self._tempInputOptionsMap), "path": node.path })
         self._tempInputOptionsMap = {}
+        self._input_number = self._input_number + 1
 
     def visit_silence_node(self, node):
         self._options["-vn"] = ""
@@ -106,14 +146,34 @@ class FFMpegVisitor(Visitor):
         self._repeat_times = node.times
         
     def visit_color_node(self, node):
+        if self._map_audio == True:
+            type = 0
+            if node.type == TYPE_VIDEO:
+                type = 1
+            elif node.type == TYPE_AUDIO:
+                type = 0
+            self._options["-map " + str(self._input_number) + ":" + str(type)] = ""
+            self._map_audio = False
+        if self._map_video == True:
+            type = 0
+            if node.type == TYPE_VIDEO:
+                type = 0
+            self._options["-map " + str(self._input_number) + ":" + str(type)] = ""
+            self._map_video = False
+            
         self._inputs.append({ "options": copy.deepcopy(self._tempInputOptionsMap), "color": node.color })
         self._tempInputOptionsMap = {}
+        self._input_number = self._input_number + 1
         
     def visit_concat_node(self, node):
         pass
     
     def visit_audio_node(self, node):
-        self._options["-an"] = ""
+        self._map_audio = True
+        
+    def visit_video_node(self, node):
+        self._map_video = True
+        
 
 
 

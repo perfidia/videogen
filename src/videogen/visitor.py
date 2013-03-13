@@ -37,6 +37,9 @@ class Visitor(object):
     def visit_audio_node(self, node):
         pass
     
+    def visit_video_node(self, node):
+        pass
+    
 class Node(object):
     def __init__(self):
         self._children = []

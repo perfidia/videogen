@@ -12,3 +12,7 @@ from shots_trees import ShotsTrees
 from concat_node import ConcatNode
 from color_node import ColorNode
 from audio_node import AudioNode
+from video_node import VideoNode
+
+from constants import TYPE_VIDEO
+from constants import TYPE_AUDIO
