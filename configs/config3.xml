@@ -1,0 +1,76 @@
+<videogen>
+	<configuration>
+		<frame>
+			<size>
+				<width>640</width>
+				<height>360</height>
+			</size>
+			<rate>
+				30
+			</rate>
+		</frame>
+	</configuration>
+	<sequence>
+		<shot>
+			<image>
+				<generate type="BackgroundGenerate">
+					<color>black</color>
+				</generate>
+			</image>
+			<audio>
+				<load type="AudioFile">
+					../data/dirty_fingernails.mp3
+				</load>
+				<effect type="AudioRange">
+					<unit>s</unit>
+					<from>30</from>
+					<to>60</to>
+				</effect>
+				<effect type="AudioRepeat">
+					<times>2</times>
+				</effect>
+			</audio>
+		</shot>
+		<shot>
+			<image>
+				<load type="ImageFile">
+					../data/cc.jpg
+				</load>
+			</image>
+			<audio>
+				<load type="AudioFile">
+					../data/dirty_fingernails.mp3
+				</load>
+				<effect type="AudioRange">
+					<unit>m</unit>
+					<from>1</from>
+					<to>2</to>
+				</effect>
+				<effect type="AudioRepeat">
+					<times>2</times>
+				</effect>
+			</audio>
+		</shot>
+		<shot>
+			<image>
+				<load type="ImageFile">
+					../data/cc.jpg
+				</load>
+			</image>
+			<audio>
+				<load type="AudioFile">
+					../data/dirty_fingernails.mp3
+				</load>
+				<effect type="AudioRange">
+					<unit>m:s</unit>
+					<from>1:02</from>
+					<to>1:15</to>
+				</effect>
+				<effect type="AudioRepeat">
+					<times>10</times>
+				</effect>
+			</audio>
+		</shot>
+		
+	</sequence>
+</videogen>
