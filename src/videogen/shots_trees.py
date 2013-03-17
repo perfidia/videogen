@@ -50,10 +50,14 @@ class ShotsTrees(object):
         video_input = None
         for load in video.getElementsByTagName("load"):
             for filename in load.childNodes:
-                if filename.nodeType == filename.TEXT_NODE:
+                if load.getAttributeNode("type").nodeValue.strip() == "AudioVideoFile":
                     video_input = InputFileNode(filename.data.strip(), TYPE_VIDEO)
                     video_input.add_child(VideoNode())
                     video_input.add_child(AudioNode())
+                    shot.add_child(video_input)
+                elif load.getAttributeNode("type").nodeValue.strip() == "VideoFile":
+                    video_input = InputFileNode(filename.data.strip(), TYPE_VIDEO)
+                    video_input.add_child(VideoNode())
                     shot.add_child(video_input)
         
         for effect in video.getElementsByTagName("effect"):
@@ -75,7 +79,11 @@ class ShotsTrees(object):
                         end = i.firstChild.data.strip()
                         print end
                         
-                range = RangeNode(start, self.calculate_length(start, end, units))
+                zero = "0"
+                if units == "m:s":
+                    zero = "0:0"
+                range = RangeNode(self.calculate_length(zero, start, units), 
+                                  self.calculate_length(start, end, units))
                 temp_output.add_child(range)
             
             elif attr == "VideoRepeat":
@@ -136,7 +144,12 @@ class ShotsTrees(object):
                         end = i.firstChild.data.strip()
                         print end
                         
-                range = RangeNode(start, self.calculate_length(start, end, units))
+                zero = "0"
+                if units == "m:s":
+                    zero = "0:0"
+                        
+                range = RangeNode(self.calculate_length(zero, start, units), 
+                                  self.calculate_length(start, end, units))
                 temp_output.add_child(range)
             
             elif attr == "AudioRepeat":

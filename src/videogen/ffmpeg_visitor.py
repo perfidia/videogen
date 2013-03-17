@@ -16,6 +16,7 @@ class FFMpegVisitor(Visitor):
         self._input_number = 0
         self._map_audio = False
         self._map_video = False
+        self._concat = False
         
         self._tempInputOptionsMap = {}
     
@@ -23,8 +24,14 @@ class FFMpegVisitor(Visitor):
         space = " "
         inputs = ""
         
+        concat = "";
+        
         if self._input_number > 1:
             self._options["-shortest"] = ""
+            
+        if self._concat == True:
+            concat = "-filter_complex \"concat=n=" + str(self._input_number)
+            concat = concat + ":v=1:a=1 [v] [a]\" -map \"[v]\" -map \"[a]\""
         
         for input in self._inputs:
             inp = input["options"]
@@ -77,12 +84,18 @@ class FFMpegVisitor(Visitor):
             
             command = command + space + "&&" + space + repeat_command
         else:
-            command = command + self._output
+            if concat == "":
+                command = command + self._output
+            else:
+                command = command + concat + space + self._output
         
         return command
     
     def visit_program_node(self, node):
         self._program = node.path
+        
+        #self._options["-qmin"] = "40"
+        #self._options["-qmax"] = "50"
         
         if node.overwrite == True:
             self._options["-y"] = ""
@@ -175,7 +188,7 @@ class FFMpegVisitor(Visitor):
         self._input_number = self._input_number + 1
         
     def visit_concat_node(self, node):
-        pass
+        self._concat = True
     
     def visit_audio_node(self, node):
         self._map_audio = True
