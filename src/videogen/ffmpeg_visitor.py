@@ -94,6 +94,11 @@ class FFMpegVisitor(Visitor):
     def visit_program_node(self, node):
         self._program = node.path
         
+        self._options["-preset"] = "slow"
+        self._options["-crf"] = "10"
+        self._options["-minrate"] = "800"
+        self._options["-c:v"] = "libx264"
+        
         #self._options["-qmin"] = "40"
         #self._options["-qmax"] = "50"
         
