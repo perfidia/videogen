@@ -182,6 +182,7 @@ class ShotsTrees(object):
         width = None
         height = None
         fps = None
+        sar = None
         
         for node in self._dom.getElementsByTagName("configuration"):
             for frame in node.getElementsByTagName("frame"):
@@ -189,10 +190,12 @@ class ShotsTrees(object):
                     width = int(i.firstChild.data.strip())
                 for i in frame.getElementsByTagName("height"):
                     height = int(i.firstChild.data.strip())
+                for i in frame.getElementsByTagName("sar"):
+                    sar = float(i.firstChild.data.strip())
             for rate in node.getElementsByTagName("rate"):
                 fps = int(rate.firstChild.data.strip())
             
-        configuration_node = ConfigurationNode(width, height, fps)
+        configuration_node = ConfigurationNode(width, height, fps, sar)
         return configuration_node
 
     def calculate_length(self, start, end, units):

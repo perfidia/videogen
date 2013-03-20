@@ -78,7 +78,7 @@ class FFMpegVisitor(Visitor):
             
             if "-y" in self._options:
                 another_command = another_command + space + "-y" + space
-            #another_command = another_command + "-o" + space
+                
             command = command + another_command
             
         if self._repeat_times > 1:
@@ -151,8 +151,8 @@ class FFMpegVisitor(Visitor):
     def visit_configuration_node(self, node):
         if node.x != None and node.y != None:
             self._options["-s"] = str(node.x) + "x" + str(node.y)
-            self._options["-vf setsar="+str(float(node.x)/float(node.y))] = ""
-            self._sar = str(float(node.x)/float(node.y))
+            self._options["-vf setsar="+str(node.sar)] = ""
+            self._sar = str(node.sar)
         if node.fps != None:
             self._options["-r"] = str(node.fps)
             
