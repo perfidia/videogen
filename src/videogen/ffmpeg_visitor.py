@@ -75,6 +75,9 @@ class FFMpegVisitor(Visitor):
             another_command = space + "&&" + space + self._program + space
             another_command = another_command + "-i" + space + temp_file2 + space
             another_command = another_command + "-vf setsar=" + self._sar + space
+            
+            if "-y" in self._options:
+                another_command = another_command + space + "-y" + space
             #another_command = another_command + "-o" + space
             command = command + another_command
             
