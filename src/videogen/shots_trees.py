@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import copy
+import os
 from xml.dom import minidom
 from videogen import *
 from constants import *
@@ -14,6 +15,7 @@ class ShotsTrees(object):
         self._dom = None
         if self._options.conf != None:
             self._dom = minidom.parse(self._options.conf)
+            self._conf_dir = os.path.dirname(os.path.abspath(self._options.conf)) + os.sep
         self._program = self._options.encoder
         
     def create(self):
@@ -51,12 +53,12 @@ class ShotsTrees(object):
         for load in video.getElementsByTagName("load"):
             for filename in load.childNodes:
                 if load.getAttributeNode("type").nodeValue.strip() == "AudioVideoFile":
-                    video_input = InputFileNode(filename.data.strip(), TYPE_VIDEO)
+                    video_input = InputFileNode(self._conf_dir + filename.data.strip(), TYPE_VIDEO)
                     video_input.add_child(VideoNode())
                     video_input.add_child(AudioNode())
                     shot.add_child(video_input)
                 elif load.getAttributeNode("type").nodeValue.strip() == "VideoFile":
-                    video_input = InputFileNode(filename.data.strip(), TYPE_VIDEO)
+                    video_input = InputFileNode(self._conf_dir + filename.data.strip(), TYPE_VIDEO)
                     video_input.add_child(VideoNode())
                     shot.add_child(video_input)
         
@@ -102,10 +104,10 @@ class ShotsTrees(object):
                 if filename.nodeType == filename.TEXT_NODE:
                     audio_input = None
                     if load.getAttributeNode("type").nodeValue.strip() == "AudioFile":
-                        audio_input = InputFileNode(filename.data.strip(), TYPE_AUDIO)
+                        audio_input = InputFileNode(self._conf_dir + filename.data.strip(), TYPE_AUDIO)
                         audio_input.add_child(AudioNode())
                     elif load.getAttributeNode("type").nodeValue.strip() == "VideoFile":
-                        audio_input = InputFileNode(filename.data.strip(), TYPE_VIDEO)
+                        audio_input = InputFileNode(self._conf_dir + filename.data.strip(), TYPE_VIDEO)
                         audio_input.add_child(AudioNode())
                         
                     shot.add_child(audio_input)
@@ -166,7 +168,7 @@ class ShotsTrees(object):
         for load in image.getElementsByTagName("load"):
             for filename in load.childNodes:
                 if filename.nodeType == filename.TEXT_NODE:
-                    image_input = ImageNode(filename.data.strip())
+                    image_input = ImageNode(self._conf_dir + filename.data.strip())
                     image_input.add_child(VideoNode())
                     shot.add_child(image_input)
                     

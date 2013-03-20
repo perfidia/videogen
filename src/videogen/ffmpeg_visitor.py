@@ -17,6 +17,9 @@ class FFMpegVisitor(Visitor):
         self._map_audio = False
         self._map_video = False
         self._concat = False
+        self._is_image = False
+        self._is_color = False
+        self._sar = 0
         
         self._tempInputOptionsMap = {}
     
@@ -63,10 +66,19 @@ class FFMpegVisitor(Visitor):
         if options != "":
             command = command + space
             
-        if self._repeat_times > 1:
-            (directory_name, file_name) = os.path.split(self._output)
+        (directory_name, file_name) = os.path.split(self._output)
+        temp_file = directory_name + os.sep + "DEADBEEF" + file_name
+        temp_file2 = directory_name + os.sep + "DEADBEEF__DEADBEEF" + file_name
             
-            temp_file = directory_name + os.sep + "DEADBEEF" + file_name
+        if self._is_image == True or self._is_color == True:
+            command = command + temp_file2
+            another_command = space + "&&" + space + self._program + space
+            another_command = another_command + "-i" + space + temp_file2 + space
+            another_command = another_command + "-vf setsar=" + self._sar + space
+            #another_command = another_command + "-o" + space
+            command = command + another_command
+            
+        if self._repeat_times > 1:
             command = command + temp_file
             
             repeat_command = self._program
@@ -76,6 +88,7 @@ class FFMpegVisitor(Visitor):
                 
             repeat_command = repeat_command + space + "-filter_complex \"concat=n=" + str(self._repeat_times)
             repeat_command = repeat_command + ":v=1:a=1 [v] [a]\" -map \"[v]\" -map \"[a]\""
+            repeat_command = repeat_command + space + "-preset slow -minrate 800 -c:v libx264"
             
             if "-y" in self._options:
                 repeat_command = repeat_command + space + "-y"
@@ -95,7 +108,7 @@ class FFMpegVisitor(Visitor):
         self._program = node.path
         
         self._options["-preset"] = "slow"
-        self._options["-crf"] = "10"
+        #self._options["-crf"] = "10"
         self._options["-minrate"] = "800"
         self._options["-c:v"] = "libx264"
         
@@ -135,6 +148,8 @@ class FFMpegVisitor(Visitor):
     def visit_configuration_node(self, node):
         if node.x != None and node.y != None:
             self._options["-s"] = str(node.x) + "x" + str(node.y)
+            self._options["-vf setsar="+str(float(node.x)/float(node.y))] = ""
+            self._sar = str(float(node.x)/float(node.y))
         if node.fps != None:
             self._options["-r"] = str(node.fps)
             
@@ -165,6 +180,7 @@ class FFMpegVisitor(Visitor):
         self._inputs.append({ "options": copy.deepcopy(self._tempInputOptionsMap), "path": node.path })
         self._tempInputOptionsMap = {}
         self._input_number = self._input_number + 1
+        self._is_image = True
 
     def visit_silence_node(self, node):
         self._options["-an"] = ""
@@ -191,6 +207,7 @@ class FFMpegVisitor(Visitor):
         self._inputs.append({ "options": copy.deepcopy(self._tempInputOptionsMap), "color": node.color })
         self._tempInputOptionsMap = {}
         self._input_number = self._input_number + 1
+        self._is_color = True
         
     def visit_concat_node(self, node):
         self._concat = True
