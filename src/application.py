@@ -21,8 +21,9 @@ def main():
         visitor = FFMpegVisitor()
         sequence = ProgramNode(options.encoder)
         sequence.overwrite = options.overwrite
-        concat = ConcatNode()
-        sequence.add_child(concat)
+        if len(shots) > 1:
+            concat = ConcatNode()
+            sequence.add_child(concat)
         sequence.add_child(OutputFileNode(options.output))
         
         i = 0

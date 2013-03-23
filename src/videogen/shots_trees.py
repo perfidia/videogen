@@ -182,7 +182,7 @@ class ShotsTrees(object):
         width = None
         height = None
         fps = None
-        sar = None
+        sar = -1
         
         for node in self._dom.getElementsByTagName("configuration"):
             for frame in node.getElementsByTagName("frame"):
