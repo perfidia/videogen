@@ -34,7 +34,8 @@ class VideoGenOptionParser(object):
     def get_options(self):
         return self._options
     
-
+    def print_help(self):
+        self._parser.print_help()
 
 
 

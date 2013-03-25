@@ -2,10 +2,14 @@
 
 from videogen import *
 import os
+import sys
 
 def main():
     vidgen_parser = VideoGenOptionParser()
     options = vidgen_parser.get_options()
+    
+    if len(sys.argv) < 2:
+        vidgen_parser.print_help()
     
     trees = ShotsTrees(options)
     shots = trees.create()
