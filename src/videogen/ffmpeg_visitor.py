@@ -186,7 +186,12 @@ class FFMpegVisitor(Visitor):
         self._is_image = True
 
     def visit_silence_node(self, node):
-        self._options["-an"] = ""
+        #self._options["-an"] = ""
+        self._tempInputOptionsMap["-f"] = "lavfi"
+        self._inputs.append({ "options": copy.deepcopy(self._tempInputOptionsMap), "path": "aevalsrc=0" })
+        self._tempInputOptionsMap = {}
+        self._options["-map " + str(self._input_number) + ":0"] = ""
+        self._input_number = self._input_number + 1
         
     def visit_repeat_node(self, node):
         self._repeat_times = node.times
