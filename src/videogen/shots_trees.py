@@ -207,11 +207,11 @@ class ShotsTrees(object):
             startTemp = start.split(":")
             startMinutes = int(startTemp[0])
             startSeconds = int(startTemp[1]) + startMinutes*60
-            print startSeconds
+            #print startSeconds
             endTemp = end.split(":")
             endMinutes = int(endTemp[0])
             endSeconds = int(endTemp[1])+endMinutes*60 
-            print endSeconds
+            #print endSeconds
             return endSeconds - startSeconds
             
 

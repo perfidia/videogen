@@ -13,7 +13,7 @@
 	<sequence>
 		<shot>
 			<video>
-				<load type="VideoFile">
+				<load type="AudioVideoFile">
 					../data/sintel_trailer-1080p.mp4
 				</load>
 				<effect type="VideoRange">
