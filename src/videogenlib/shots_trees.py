@@ -3,7 +3,7 @@
 import copy
 import os
 from xml.dom import minidom
-from videogen import *
+from videogenlib import *
 from constants import *
 from video_node import VideoNode
 from audio_node import AudioNode

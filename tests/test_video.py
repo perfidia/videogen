@@ -1,5 +1,5 @@
 import unittest
-from videogen import *
+from videogenlib import *
 
 class TestVideo(unittest.TestCase):
     def setUp(self):

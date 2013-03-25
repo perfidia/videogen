@@ -1,5 +1,5 @@
 import unittest
-from videogen import *
+from videogenlib import *
 
 class Mock(object):
     def __init__(self):

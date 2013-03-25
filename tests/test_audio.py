@@ -1,5 +1,5 @@
 import unittest
-from videogen import *
+from videogenlib import *
 
 class TestAudio(unittest.TestCase):
     def setUp(self):
