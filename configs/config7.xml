@@ -15,6 +15,10 @@
 				<key>libx264</key>
 				<!--key>flv1</key-->
 			</video>
+			<audio>
+				<key>libmp3lame</key>
+				<!--key>libvo_aacenc</key-->
+			</audio>
 		</codecs>
 	</configuration>
 	<sequence>

@@ -94,6 +94,7 @@ class FFMpegVisitor(Visitor):
             repeat_command = repeat_command + space + "-filter_complex \"concat=n=" + str(self._repeat_times)
             repeat_command = repeat_command + ":v=1:a=1 [v] [a]\" -map \"[v]\" -map \"[a]\""
             repeat_command = repeat_command + space + "-preset slow -minrate 800 -c:v " + self._video_codec
+            repeat_command = repeat_command + space + "-c:a" + space + self._audio_codec
             
             if "-y" in self._options:
                 repeat_command = repeat_command + space + "-y"
@@ -116,6 +117,7 @@ class FFMpegVisitor(Visitor):
         #self._options["-crf"] = "10"
         self._options["-minrate"] = "800"
         self._options["-c:v"] = self._video_codec
+        self._options["-c:a"] = self._audio_codec
         
         #self._options["-qmin"] = "40"
         #self._options["-qmax"] = "50"
