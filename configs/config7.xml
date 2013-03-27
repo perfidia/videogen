@@ -30,6 +30,15 @@
 		<shot>
 			<image>
 				<board>
+					<configuration>
+						<size>
+							<width>640</width>
+							<height>360</height>
+						</size>
+						<background>
+							<color>#444444</color>
+						</background>
+					</configuration>
 				</board>
 			</image>
 			<audio>

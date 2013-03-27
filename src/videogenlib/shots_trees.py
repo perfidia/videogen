@@ -189,7 +189,21 @@ class ShotsTrees(object):
     def _parse_image_board(self, board):
         filename = self._options.tmp + "DEADBEEF__board" + str(self._board_num) + ".png"
         self._boardNum = self._board_num + 1
-        cBoard = Board(filename, (400, 400), "#004444")
+        x = 400
+        y = 400
+        bg_color = "#004444"
+        
+        for size in board.getElementsByTagName("size"):
+            for width in size.getElementsByTagName("width"):
+                x = int(width.firstChild.data.strip())
+            for height in size.getElementsByTagName("height"):
+                y = int(height.firstChild.data.strip())
+                
+        for background in board.getElementsByTagName("background"):
+            for color in background.getElementsByTagName("color"):
+                bg_color = color.firstChild.data.strip()
+        
+        cBoard = Board(filename, (x, y), bg_color)
         cBoard.add_text("sample text", (0, 0), "#FFFFFF")
         cBoard.save()
         return filename
