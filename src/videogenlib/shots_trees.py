@@ -193,18 +193,39 @@ class ShotsTrees(object):
         y = 400
         bg_color = "#004444"
         
-        for size in board.getElementsByTagName("size"):
-            for width in size.getElementsByTagName("width"):
-                x = int(width.firstChild.data.strip())
-            for height in size.getElementsByTagName("height"):
-                y = int(height.firstChild.data.strip())
-                
-        for background in board.getElementsByTagName("background"):
-            for color in background.getElementsByTagName("color"):
-                bg_color = color.firstChild.data.strip()
-        
+        for configuration in board.getElementsByTagName("configuration"):
+            for size in configuration.getElementsByTagName("size"):
+                for width in size.getElementsByTagName("width"):
+                    x = int(width.firstChild.data.strip())
+                for height in size.getElementsByTagName("height"):
+                    y = int(height.firstChild.data.strip())
+                    
+            for background in configuration.getElementsByTagName("background"):
+                for color in background.getElementsByTagName("color"):
+                    bg_color = color.firstChild.data.strip()
+                    
         cBoard = Board(filename, (x, y), bg_color)
-        cBoard.add_text("sample text", (0, 0), "#FFFFFF")
+                    
+        for text in board.getElementsByTagName("text"):
+            text_content = ""
+            text_pos_x = 0
+            text_pos_y = 0
+            text_color = "#FFFFFF"
+            
+            for content in text.getElementsByTagName("content"):
+                text_content = content.firstChild.data.strip()
+            
+            for color in text.getElementsByTagName("color"):
+                text_color = color.firstChild.data.strip()
+                
+            for point in text.getElementsByTagName("point"):
+                for px in text.getElementsByTagName("x"):
+                    text_pos_x = int(px.firstChild.data.strip())
+                for py in text.getElementsByTagName("y"):
+                    text_pos_y = int(py.firstChild.data.strip())
+            
+            cBoard.add_text(text_content, ( text_pos_x, text_pos_y), text_color)
+        
         cBoard.save()
         return filename
 

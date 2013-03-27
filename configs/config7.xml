@@ -39,6 +39,14 @@
 							<color>#444444</color>
 						</background>
 					</configuration>
+					<text>
+						<content>ijo ijo!</content>
+						<color>#00FFFF</color>
+						<point>
+							<x>40</x>
+							<y>200</y>
+						</point>
+					</text>
 				</board>
 			</image>
 			<audio>
