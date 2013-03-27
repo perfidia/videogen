@@ -34,7 +34,7 @@ def main():
         
         for shot in shots:
             i = i + 1
-            sequence.add_child(InputFileNode(options.tmp + str(i)+".avi", TYPE_VIDEO))
+            sequence.add_child(InputFileNode(options.tmp + options.attach + str(i)+".avi", TYPE_VIDEO))
             
         sequence.accept(visitor)
         command = visitor.get_command()

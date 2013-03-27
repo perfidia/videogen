@@ -187,7 +187,7 @@ class ShotsTrees(object):
             shot.add_child(image_input)
         
     def _parse_image_board(self, board):
-        filename = self._options.tmp + "DEADBEEF__board" + str(self._board_num) + ".png"
+        filename =  self._options.tmp + self._options.attach + "DEADBEEF__board" + str(self._board_num) + ".png"
         self._boardNum = self._board_num + 1
         x = 400
         y = 400
