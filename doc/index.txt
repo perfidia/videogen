@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 2 
 
    _static/commands
+   _static/xml
 
 
 Indices and tables
