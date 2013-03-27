@@ -8,11 +8,13 @@ from constants import *
 from video_node import VideoNode
 from audio_node import AudioNode
 from color_node import ColorNode
+from board import Board
 
 class ShotsTrees(object):
     def __init__(self, options):
         self._options = copy.deepcopy(options)
         self._dom = None
+        self._board_num = 0
         if self._options.conf != None:
             self._dom = minidom.parse(self._options.conf)
             self._conf_dir = os.path.dirname(os.path.abspath(self._options.conf)) + os.sep
@@ -177,6 +179,20 @@ class ShotsTrees(object):
                 color_input = ColorNode(color.firstChild.data.strip())
                 color_input.add_child(VideoNode())
                 shot.add_child(color_input)
+                
+        for board in image.getElementsByTagName("board"):
+            filename = self._parse_image_board(board)
+            image_input = ImageNode(filename)
+            image_input.add_child(VideoNode())
+            shot.add_child(image_input)
+        
+    def _parse_image_board(self, board):
+        filename = self._options.tmp + "DEADBEEF__board" + str(self._board_num) + ".png"
+        self._boardNum = self._board_num + 1
+        cBoard = Board(filename, (400, 400), "#004444")
+        cBoard.add_text("sample text", (0, 0), "#FFFFFF")
+        cBoard.save()
+        return filename
 
     def get_configuration_node(self):
         width = None

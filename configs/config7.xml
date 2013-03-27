@@ -1,0 +1,43 @@
+<videogen>
+	<configuration>
+		<frame>
+			<size>
+				<width>640</width>
+				<height>360</height>
+				<sar>1.0</sar>
+			</size>
+			<rate>
+				30
+			</rate>
+		</frame>
+	</configuration>
+	<sequence>
+		<shot>
+			<video>
+				<load type="AudioVideoFile">
+					../data/sintel_trailer-1080p.mp4
+				</load>
+				<effect type="VideoRange">
+					<unit>s</unit>
+					<from>10</from>
+					<to>20</to>
+				</effect>
+				<effect type="VideoRepeat">
+					<times>2</times>
+				</effect>
+			</video>
+		</shot>
+		<shot>
+			<image>
+				<board>
+				</board>
+			</image>
+			<audio>
+				<generate type="SilenceGenerate">
+					<unit>s</unit>
+					<duration>10</duration>
+				</generate>
+			</audio>
+		</shot>
+	</sequence>
+</videogen>
