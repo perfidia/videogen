@@ -48,7 +48,7 @@ class ShotsTrees(object):
             
             shots.append(shot)
             
-        return shots
+        return (shots, configuration_node)
     
     def _parse_video(self, video, shot, temp_output):
         video_input = None
@@ -267,6 +267,8 @@ class ShotsTrees(object):
         height = None
         fps = None
         sar = -1
+        video_codec = "libx264"
+        audio_codec = "libmp3lame"
         
         for node in self._dom.getElementsByTagName("configuration"):
             for frame in node.getElementsByTagName("frame"):
@@ -278,8 +280,16 @@ class ShotsTrees(object):
                     sar = float(i.firstChild.data.strip())
             for rate in node.getElementsByTagName("rate"):
                 fps = int(rate.firstChild.data.strip())
+            for codecs in node.getElementsByTagName("codecs"):
+                for v in codecs.getElementsByTagName("video"):
+                    for k in v.getElementsByTagName("key"):
+                        video_codec = k.firstChild.data.strip()
+                for a in codecs.getElementsByTagName("audio"):
+                    for k in a.getElementsByTagName("key"):
+                        audio_codec = k.firstChild.data.strip()
             
-        configuration_node = ConfigurationNode(width, height, fps, sar)
+        configuration_node = ConfigurationNode(width, height, fps, sar,
+                                               video_codec, audio_codec)
         return configuration_node
 
     def calculate_length(self, start, end, units):

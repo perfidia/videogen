@@ -20,6 +20,8 @@ class FFMpegVisitor(Visitor):
         self._is_image = False
         self._is_color = False
         self._sar = 0
+        self._video_codec = "libx264"
+        self._audio_codec = "libmp3lame"
         
         self._tempInputOptionsMap = {}
     
@@ -91,7 +93,7 @@ class FFMpegVisitor(Visitor):
                 
             repeat_command = repeat_command + space + "-filter_complex \"concat=n=" + str(self._repeat_times)
             repeat_command = repeat_command + ":v=1:a=1 [v] [a]\" -map \"[v]\" -map \"[a]\""
-            repeat_command = repeat_command + space + "-preset slow -minrate 800 -c:v libx264"
+            repeat_command = repeat_command + space + "-preset slow -minrate 800 -c:v " + self._video_codec
             
             if "-y" in self._options:
                 repeat_command = repeat_command + space + "-y"
@@ -113,7 +115,7 @@ class FFMpegVisitor(Visitor):
         self._options["-preset"] = "slow"
         #self._options["-crf"] = "10"
         self._options["-minrate"] = "800"
-        self._options["-c:v"] = "libx264"
+        self._options["-c:v"] = self._video_codec
         
         #self._options["-qmin"] = "40"
         #self._options["-qmax"] = "50"
@@ -155,6 +157,9 @@ class FFMpegVisitor(Visitor):
             self._sar = str(node.sar)
         if node.fps != None:
             self._options["-r"] = str(node.fps)
+            
+        self._audio_codec = node.audio_codec
+        self._video_codec = node.video_codec
             
     def visit_range_node(self, node):
         if node.start != None:

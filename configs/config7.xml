@@ -10,6 +10,12 @@
 				30
 			</rate>
 		</frame>
+		<codecs>
+			<video>
+				<key>libx264</key>
+				<!--key>flv1</key-->
+			</video>
+		</codecs>
 	</configuration>
 	<sequence>
 		<shot>

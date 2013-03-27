@@ -12,7 +12,7 @@ def main():
         vidgen_parser.print_help()
     
     trees = ShotsTrees(options)
-    shots = trees.create()
+    (shots, configuration_node) = trees.create()
     
     for shot in shots:
         visitor = FFMpegVisitor()
@@ -28,7 +28,15 @@ def main():
         if len(shots) > 1:
             concat = ConcatNode()
             sequence.add_child(concat)
-        sequence.add_child(OutputFileNode(options.output))
+        
+        outfn = OutputFileNode(options.output)
+        sequence.add_child(outfn)
+        
+        mainconf = ConfigurationNode(None, None, None, -1,
+                                     configuration_node.video_codec, 
+                                     configuration_node.audio_codec)
+        
+        outfn.add_child(mainconf)
         
         i = 0
         
