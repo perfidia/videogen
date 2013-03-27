@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="videogen">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="configuration">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="frame">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="size">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:short" name="width"/>
+                          <xs:element type="xs:short" name="height"/>
+                          <xs:element type="xs:float" name="sar"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element type="xs:float" name="rate"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="sequence">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="shot" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="video" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="load">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="type"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="effect" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="unit" minOccurs="0"/>
+                                <xs:element type="xs:byte" name="from" minOccurs="0"/>
+                                <xs:element type="xs:byte" name="to" minOccurs="0"/>
+                                <xs:element type="xs:byte" name="times" minOccurs="0"/>
+                              </xs:sequence>
+                              <xs:attribute type="xs:string" name="type" use="optional"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="image" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="board">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="configuration">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="size">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element type="xs:short" name="width"/>
+                                            <xs:element type="xs:short" name="height"/>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="background">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element type="xs:string" name="color"/>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="text">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element type="xs:string" name="content"/>
+                                      <xs:element type="xs:string" name="color"/>
+                                      <xs:element name="point">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element type="xs:byte" name="x"/>
+                                            <xs:element type="xs:short" name="y"/>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="picture">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element type="xs:string" name="filename"/>
+                                      <xs:element name="point">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element type="xs:byte" name="x"/>
+                                            <xs:element type="xs:short" name="y"/>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="size">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element type="xs:short" name="x"/>
+                                            <xs:element type="xs:byte" name="y"/>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element type="xs:float" name="transparent"/>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="line">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element type="xs:byte" name="width"/>
+                                      <xs:element type="xs:string" name="color"/>
+                                      <xs:element name="point" maxOccurs="unbounded" minOccurs="0">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element type="xs:byte" name="X"/>
+                                            <xs:element type="xs:byte" name="Y"/>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="rectangle">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element type="xs:string" name="color"/>
+                                      <xs:element name="point">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element type="xs:short" name="X"/>
+                                            <xs:element type="xs:short" name="Y"/>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="size">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element type="xs:short" name="width"/>
+                                            <xs:element type="xs:short" name="height"/>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="ellipse">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element type="xs:string" name="color"/>
+                                      <xs:element name="center">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="point">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element type="xs:short" name="X"/>
+                                                  <xs:element type="xs:short" name="Y"/>
+                                                </xs:sequence>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="radius">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element type="xs:short" name="X"/>
+                                            <xs:element type="xs:byte" name="Y"/>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="audio" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="generate">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="unit"/>
+                                <xs:element type="xs:byte" name="duration"/>
+                              </xs:sequence>
+                              <xs:attribute type="xs:string" name="type"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
