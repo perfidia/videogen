@@ -132,8 +132,8 @@
                                       <xs:element name="point" maxOccurs="unbounded" minOccurs="0">
                                         <xs:complexType>
                                           <xs:sequence>
-                                            <xs:element type="xs:byte" name="X"/>
-                                            <xs:element type="xs:byte" name="Y"/>
+                                            <xs:element type="xs:byte" name="x"/>
+                                            <xs:element type="xs:byte" name="y"/>
                                           </xs:sequence>
                                         </xs:complexType>
                                       </xs:element>
@@ -147,8 +147,8 @@
                                       <xs:element name="point">
                                         <xs:complexType>
                                           <xs:sequence>
-                                            <xs:element type="xs:short" name="X"/>
-                                            <xs:element type="xs:short" name="Y"/>
+                                            <xs:element type="xs:short" name="x"/>
+                                            <xs:element type="xs:short" name="y"/>
                                           </xs:sequence>
                                         </xs:complexType>
                                       </xs:element>
@@ -173,8 +173,8 @@
                                             <xs:element name="point">
                                               <xs:complexType>
                                                 <xs:sequence>
-                                                  <xs:element type="xs:short" name="X"/>
-                                                  <xs:element type="xs:short" name="Y"/>
+                                                  <xs:element type="xs:short" name="x"/>
+                                                  <xs:element type="xs:short" name="y"/>
                                                 </xs:sequence>
                                               </xs:complexType>
                                             </xs:element>
@@ -184,8 +184,8 @@
                                       <xs:element name="radius">
                                         <xs:complexType>
                                           <xs:sequence>
-                                            <xs:element type="xs:short" name="X"/>
-                                            <xs:element type="xs:byte" name="Y"/>
+                                            <xs:element type="xs:short" name="x"/>
+                                            <xs:element type="xs:byte" name="y"/>
                                           </xs:sequence>
                                         </xs:complexType>
                                       </xs:element>
