@@ -47,6 +47,22 @@
 							<y>200</y>
 						</point>
 					</text>
+					<picture>
+						<filename>
+							../data/cc.jpg
+						</filename>
+						<point>
+							<x>40</x>
+							<y>300</y>
+						</point>
+						<size>
+							<x>200</x>
+							<y>101</y>
+						</size>
+						<transparent>
+							0
+						</transparent>
+					</picture>
 				</board>
 			</image>
 			<audio>

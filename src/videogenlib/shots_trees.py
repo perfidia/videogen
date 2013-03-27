@@ -225,6 +225,39 @@ class ShotsTrees(object):
                     text_pos_y = int(py.firstChild.data.strip())
             
             cBoard.add_text(text_content, ( text_pos_x, text_pos_y), text_color)
+            
+        for picture in board.getElementsByTagName("picture"):
+            pic_filename = ""
+            pic_pos_x = 0
+            pic_pos_y = 0
+            pic_x = 100
+            pic_y = 100
+            is_transparent = 0
+            
+            
+            for load in picture.getElementsByTagName("filename"):
+                pic_filename = load.firstChild.data.strip()
+                
+            for point in picture.getElementsByTagName("point"):
+                for px in point.getElementsByTagName("x"):
+                    pic_pos_x = int(px.firstChild.data.strip())
+                for py in point.getElementsByTagName("y"):
+                    pic_pos_y = int(py.firstChild.data.strip())
+                    
+            for size in picture.getElementsByTagName("size"):
+                for px in size.getElementsByTagName("x"):
+                    pic_x = int(px.firstChild.data.strip())
+                for py in size.getElementsByTagName("y"):
+                    pic_y = int(py.firstChild.data.strip())
+                    
+            for transparent in picture.getElementsByTagName("transparent"):
+                is_transparent = int(transparent.firstChild.data.strip())
+
+                    
+            cBoard.add_image(self._conf_dir + pic_filename, 
+                             (pic_x, pic_y), 
+                             ( pic_pos_x, pic_pos_y),
+                             is_transparent == 1)
         
         cBoard.save()
         return filename

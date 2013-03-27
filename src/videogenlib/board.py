@@ -15,9 +15,12 @@ class Board(object):
         font = ImageFont.load(font)
         self._ctx.text(pos, text, color, font)
         
-    def add_image(self, filename, size, pos = (0, 0)):
+    def add_image(self, filename, size, pos = (0, 0), is_transparent = 1):
         img = Image.open(filename)
         im = img.resize(size)
         #3rd param is alpha mask
-        self._image.paste(im, pos, im)
+        if is_transparent:
+            self._image.paste(im, pos, im)
+        else:
+            self._image.paste(im, pos)
 
