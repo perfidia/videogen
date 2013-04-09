@@ -50,6 +50,7 @@
 						</background>
 					</configuration>
 					<text>
+						<id>ijo</id>
 						<content>ijo ijo!</content>
 						<color>#00FFFF</color>
 						<point>
@@ -58,12 +59,14 @@
 						</point>
 					</text>
 					<picture>
+						<id>mijo</id>
+						<align_id>ijo</align_id>
 						<filename>
 							../data/cc.jpg
 						</filename>
 						<point>
 							<x>40</x>
-							<y>300</y>
+							<y>30</y>
 						</point>
 						<size>
 							<x>200</x>

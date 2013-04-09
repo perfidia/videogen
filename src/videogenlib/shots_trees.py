@@ -192,6 +192,7 @@ class ShotsTrees(object):
         x = 400
         y = 400
         bg_color = "#004444"
+        element_coords = [  ]
         
         for configuration in board.getElementsByTagName("configuration"):
             for size in configuration.getElementsByTagName("size"):
@@ -211,6 +212,10 @@ class ShotsTrees(object):
             text_pos_x = 0
             text_pos_y = 0
             text_color = "#FFFFFF"
+            text_id = ""
+            align_x = "FREE"
+            align_y = "FREE"
+            align_id = ""
             
             for content in text.getElementsByTagName("content"):
                 text_content = content.firstChild.data.strip()
@@ -218,13 +223,39 @@ class ShotsTrees(object):
             for color in text.getElementsByTagName("color"):
                 text_color = color.firstChild.data.strip()
                 
+            for idn in text.getElementsByTagName("id"):
+                text_id = idn.firstChild.data.strip()
+                
+            for idn in text.getElementsByTagName("align_x"):
+                align_x = idn.firstChild.data.strip()
+                
+            for idn in text.getElementsByTagName("align_y"):
+                align_y = idn.firstChild.data.strip()
+                
+            for idn in text.getElementsByTagName("align_id"):
+                align_id = idn.firstChild.data.strip()
+                
             for point in text.getElementsByTagName("point"):
                 for px in text.getElementsByTagName("x"):
                     text_pos_x = int(px.firstChild.data.strip())
                 for py in text.getElementsByTagName("y"):
                     text_pos_y = int(py.firstChild.data.strip())
+                    
+            text_map = {
+                        "type" : "text", 
+                        "content" : text_content,
+                        "color" : text_color,
+                        "x" : text_pos_x,
+                        "y" : text_pos_y,
+                        "id" : text_id,
+                        "align_x" : align_x,
+                        "align_y" : align_y,
+                        "align_id" : align_id,
+                        }
             
-            cBoard.add_text(text_content, ( text_pos_x, text_pos_y), text_color)
+            element_coords.append(text_map)
+            
+            #cBoard.add_text(text_content, ( text_pos_x, text_pos_y), text_color)
             
         for picture in board.getElementsByTagName("picture"):
             pic_filename = ""
@@ -233,6 +264,10 @@ class ShotsTrees(object):
             pic_x = 100
             pic_y = 100
             is_transparent = 0
+            pic_id = ""
+            align_x = "FREE"
+            align_y = "FREE"
+            align_id = ""
             
             
             for load in picture.getElementsByTagName("filename"):
@@ -244,6 +279,12 @@ class ShotsTrees(object):
                 for py in point.getElementsByTagName("y"):
                     pic_pos_y = int(py.firstChild.data.strip())
                     
+            for idn in picture.getElementsByTagName("id"):
+                pic_id = idn.firstChild.data.strip()
+                
+            for idn in picture.getElementsByTagName("align_id"):
+                align_id = idn.firstChild.data.strip()
+                    
             for size in picture.getElementsByTagName("size"):
                 for px in size.getElementsByTagName("x"):
                     pic_x = int(px.firstChild.data.strip())
@@ -253,14 +294,69 @@ class ShotsTrees(object):
             for transparent in picture.getElementsByTagName("transparent"):
                 is_transparent = int(transparent.firstChild.data.strip())
 
+            image_map = {
+                         "type" : "image",
+                         "filename" : self._conf_dir + pic_filename,
+                         "w" : pic_x,
+                         "h" : pic_y,
+                         "x" : pic_pos_x,
+                         "y" : pic_pos_y,
+                         "transparent" : is_transparent == 1,
+                         "id" : pic_id,
+                         "align_x" : align_x,
+                         "align_y" : align_y,
+                         "align_id" : align_id,
+                         }
+            
+            element_coords.append(image_map)
                     
-            cBoard.add_image(self._conf_dir + pic_filename, 
-                             (pic_x, pic_y), 
-                             ( pic_pos_x, pic_pos_y),
-                             is_transparent == 1)
+            #cBoard.add_image(self._conf_dir + pic_filename, 
+            #                 (pic_x, pic_y), 
+            #                 ( pic_pos_x, pic_pos_y),
+            #                 is_transparent == 1)
+            
+        for element in element_coords:
+            if element["type"] == "text":
+                x = 0
+                y = 0
+                if element["align_id"] != "":
+                    x, y = self._calculate_position(element["align_id"], element_coords)
+                    print "POS", x, y
+                    
+                cBoard.add_text(element["content"], ( x + element["x"], y + element["y"]), element["color"])
+            elif element["type"] == "image":
+                x = 0
+                y = 0
+                if element["align_id"] != "":
+                    x, y = self._calculate_position(element["align_id"], element_coords)
+                    print "POS", x, y
+                    
+                cBoard.add_image(element["filename"], 
+                                 (element["w"], element["h"]), 
+                                 ( x + element["x"], y + element["y"]),
+                                 element["transparent"])
         
         cBoard.save()
         return filename
+    
+    def _calculate_position(self, element_id, elements):
+        
+        for element in elements:
+            if element["id"] == element_id:
+                if "__finite_coords" in element:
+                    return element["x"], element["y"]
+                else:
+                    if element["align_id"] != "":
+                        x, y = self._calculate_position(element["align_id"], elements)
+                        element["x"] = x
+                        element["y"] = y
+                        element["__finite_coords"] = True
+                        return element["x"], element["y"]
+                    else:
+                        element["__finite_coords"] = True
+                        return element["x"], element["y"]
+        
+        return 0, 0
 
     def get_configuration_node(self):
         width = None
