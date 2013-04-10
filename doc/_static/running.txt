@@ -1,0 +1,45 @@
+Running VideoGen
+=================
+
+In order to run VideoGen open src folder and type in console:
+
+`python videogen [-options]`
+
+to learn all the available options look into subsections below.
+
+`python videogen -c /home/user/config1.xml -o /home/out.avi`
+
+
+VideoGen requires XML configuration, so after -c or --conf option we provide path to the file.
+Next we want to specify path for the output file, we do so by adding path using -o or --output option.
+
+If we want to use specific FFPMEG encoder we can provide path to it by using -e or --encoder option like this:
+
+`python videogen -c /home/user/config.xml -e /home/user/ffmpeg/ffmpeg`
+
+
+Adding soft subtitles using command line option
+-----------------------------------------------
+In order to add soft subtitles to the output file we need to use -s or --subtitles option. Following example:
+
+`python videogen -c /home/user/config.xml -o /home/user/out.avi -s /home/user/subtitles.srt`
+
+
+Full list of availavle command line options
+-------------------------------------------
+
+  -h, --help            show help message
+  -c CONF, --conf=CONF  input file in XML format
+  -o OUTPUT, --output=OUTPUT
+                        place where to generate output file (default is
+                        ./output.avi)
+  -t TMP, --tmp=TMP     directory for intermediate files (default is /tmp/)
+  -a ATTACH, --attach=ATTACH
+                        a string which should be added before each file that
+                        is loaded
+  -e ENCODER, --encoder=ENCODER
+                        location of ffmpeg encoder
+  -y                    do not ask to overwrite files
+  -s SOFTSUBTITLES, --subtitles=SOFTSUBTITLES
+                        Adds *.srt soft subtitles file to the output directory
+
