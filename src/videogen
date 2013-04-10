@@ -89,12 +89,12 @@ def main():
             
         sequence.accept(visitor)
         command = visitor.get_command()
-        print command
+        
         os.system(command)
         if options.softsubtitles != None:
-        	subs = SoftSubtitles(options.output, options.softsubtitles)
+            subs = SoftSubtitles(options.output, options.softsubtitles)
         else:
-        	subs = SoftSubtitles(options.output, configuration_node.subs) 
+            subs = SoftSubtitles(options.output, configuration_node.subs) 
         subs.add_subtitles()
         
     return

@@ -83,9 +83,9 @@ class ShotsTrees(object):
                 zero = "0"
                 if units == "m:s":
                     zero = "0:0"
-                range = RangeNode(self.calculate_length(zero, start, units), 
+                mrange = RangeNode(self.calculate_length(zero, start, units), 
                                   self.calculate_length(start, end, units))
-                temp_output.add_child(range)
+                temp_output.add_child(mrange)
             
             elif attr == "VideoRepeat":
                 times = 0
@@ -122,8 +122,8 @@ class ShotsTrees(object):
                 duration = i.firstChild.data.strip()
                     
             silence = SilenceNode()
-            range = RangeNode(0, self.calculate_length("0", duration, units))
-            temp_output.add_child(range)
+            mrange = RangeNode(0, self.calculate_length("0", duration, units))
+            temp_output.add_child(mrange)
             temp_output.add_child(silence)
         
         for effect in audio.getElementsByTagName("effect"):
@@ -149,9 +149,9 @@ class ShotsTrees(object):
                 if units == "m:s":
                     zero = "0:0"
                         
-                range = RangeNode(self.calculate_length(zero, start, units), 
+                mrange = RangeNode(self.calculate_length(zero, start, units), 
                                   self.calculate_length(start, end, units))
-                temp_output.add_child(range)
+                temp_output.add_child(mrange)
             
             elif attr == "AudioRepeat":
                 times = 0
