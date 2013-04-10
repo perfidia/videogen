@@ -613,6 +613,7 @@ class ShotsTrees(object):
         sar = -1
         video_codec = "libx264"
         audio_codec = "libmp3lame"
+        subs = None
         
         for node in self._dom.getElementsByTagName("configuration"):
             for frame in node.getElementsByTagName("frame"):
@@ -631,9 +632,11 @@ class ShotsTrees(object):
                 for a in codecs.getElementsByTagName("audio"):
                     for k in a.getElementsByTagName("key"):
                         audio_codec = k.firstChild.data.strip()
+            for subtitles in node.getElementsByTagName("subtitles"):
+                subs = subtitles.firstChild.data.strip()
             
         configuration_node = ConfigurationNode(width, height, fps, sar,
-                                               video_codec, audio_codec)
+                                               video_codec, audio_codec, subs)
         return configuration_node
 
     def calculate_length(self, start, end, units):
