@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import shutil
+import subprocess
 
 class SoftSubtitles(object):
     def __init__(self, output, subtitles):
@@ -19,3 +20,4 @@ class SoftSubtitles(object):
     def add_subtitles(self):
         if self.extension != None and self.path != None and self.subtitles != None:
             shutil.copyfile(self.subtitles+self.extension, self.path+self.extension)
+            
