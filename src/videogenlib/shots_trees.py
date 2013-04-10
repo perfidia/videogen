@@ -315,26 +315,190 @@ class ShotsTrees(object):
             #                 ( pic_pos_x, pic_pos_y),
             #                 is_transparent == 1)
             
+        for line in board.getElementsByTagName("line"):
+            pos_x1 = 0
+            pos_y1 = 0
+            pos_x2 = 0
+            pos_y2 = 0
+            line_color = "#FFFFFF"
+            line_width = 1
+            line_id = ""
+            align_x = "FREE"
+            align_y = "FREE"
+            align_id = ""
+                
+            for point in line.getElementsByTagName("point_start"):
+                for px in point.getElementsByTagName("x"):
+                    pos_x1 = int(px.firstChild.data.strip())
+                for py in point.getElementsByTagName("y"):
+                    pos_y1 = int(py.firstChild.data.strip())
+                    
+            
+            for point in line.getElementsByTagName("point_end"):
+                for px in point.getElementsByTagName("x"):
+                    pos_x2 = int(px.firstChild.data.strip())
+                for py in point.getElementsByTagName("y"):
+                    pos_y2 = int(py.firstChild.data.strip())
+                    
+            for idn in line.getElementsByTagName("id"):
+                line_id = idn.firstChild.data.strip()
+                
+            for idn in line.getElementsByTagName("width"):
+                line_width = int(idn.firstChild.data.strip())
+                
+            for idn in line.getElementsByTagName("align_id"):
+                align_id = idn.firstChild.data.strip()
+                    
+            for color in line.getElementsByTagName("color"):
+                line_color = color.firstChild.data.strip()
+
+            image_map = {
+                         "type" : "line",
+                         "width" : line_width,
+                         "x1" : pos_x1,
+                         "y1" : pos_y1,
+                         "x2" : pos_x2,
+                         "y2" : pos_y2,
+                         "color" : line_color,
+                         "id" : line_id,
+                         "align_x" : align_x,
+                         "align_y" : align_y,
+                         "align_id" : align_id,
+                         }
+            
+            element_coords.append(image_map)
+            
+        for rectangle in board.getElementsByTagName("rectangle"):
+            pos_x1 = 0
+            pos_y1 = 0
+            pos_x2 = 0
+            pos_y2 = 0
+            rectangle_color = "#FFFFFF"
+            rectangle_id = ""
+            align_x = "FREE"
+            align_y = "FREE"
+            align_id = ""
+                
+            for point in rectangle.getElementsByTagName("point_start"):
+                for px in point.getElementsByTagName("x"):
+                    pos_x1 = int(px.firstChild.data.strip())
+                for py in point.getElementsByTagName("y"):
+                    pos_y1 = int(py.firstChild.data.strip())
+                    
+            
+            for point in rectangle.getElementsByTagName("point_end"):
+                for px in point.getElementsByTagName("x"):
+                    pos_x2 = int(px.firstChild.data.strip())
+                for py in point.getElementsByTagName("y"):
+                    pos_y2 = int(py.firstChild.data.strip())
+                    
+            for idn in rectangle.getElementsByTagName("id"):
+                rectangle_id = idn.firstChild.data.strip()
+                
+            for idn in rectangle.getElementsByTagName("align_id"):
+                align_id = idn.firstChild.data.strip()
+                    
+            for color in rectangle.getElementsByTagName("color"):
+                rectangle_color = color.firstChild.data.strip()
+
+            image_map = {
+                         "type" : "rectangle",
+                         "x1" : pos_x1,
+                         "y1" : pos_y1,
+                         "x2" : pos_x2,
+                         "y2" : pos_y2,
+                         "color" : rectangle_color,
+                         "id" : rectangle_id,
+                         "align_x" : align_x,
+                         "align_y" : align_y,
+                         "align_id" : align_id,
+                         }
+            
+            element_coords.append(image_map)
+            
+        for ellipse in board.getElementsByTagName("ellipse"):
+            pos_x1 = 0
+            pos_y1 = 0
+            pos_x2 = 0
+            pos_y2 = 0
+            ellipse_color = "#FFFFFF"
+            ellipse_id = ""
+            align_x = "FREE"
+            align_y = "FREE"
+            align_id = ""
+                
+            for point in ellipse.getElementsByTagName("point_start"):
+                for px in point.getElementsByTagName("x"):
+                    pos_x1 = int(px.firstChild.data.strip())
+                for py in point.getElementsByTagName("y"):
+                    pos_y1 = int(py.firstChild.data.strip())
+                    
+            
+            for point in ellipse.getElementsByTagName("point_end"):
+                for px in point.getElementsByTagName("x"):
+                    pos_x2 = int(px.firstChild.data.strip())
+                for py in point.getElementsByTagName("y"):
+                    pos_y2 = int(py.firstChild.data.strip())
+                    
+            for idn in ellipse.getElementsByTagName("id"):
+                ellipse_id = idn.firstChild.data.strip()
+                
+            for idn in ellipse.getElementsByTagName("align_id"):
+                align_id = idn.firstChild.data.strip()
+                    
+            for color in ellipse.getElementsByTagName("color"):
+                ellipse_color = color.firstChild.data.strip()
+
+            image_map = {
+                         "type" : "ellipse",
+                         "x1" : pos_x1,
+                         "y1" : pos_y1,
+                         "x2" : pos_x2,
+                         "y2" : pos_y2,
+                         "color" : ellipse_color,
+                         "id" : ellipse_id,
+                         "align_x" : align_x,
+                         "align_y" : align_y,
+                         "align_id" : align_id,
+                         }
+            
+            element_coords.append(image_map)
+            
         for element in element_coords:
-            if element["type"] == "text":
-                x = 0
-                y = 0
-                if element["align_id"] != "":
-                    x, y = self._calculate_position(element["align_id"], element_coords)
-                    print "POS", x, y
-                    
-                cBoard.add_text(element["content"], ( x + element["x"], y + element["y"]), element["color"])
+            if element["align_id"] != "":
+                x, y = self._calculate_position(element["align_id"], element_coords)
+                if "__finite_coords" not in element:
+                    element["__finite_coords"] = True
+                    if "x" in element and "y" in element:
+                        element["x"] = element["x"] + x
+                        element["y"] = element["y"] + y
+                    if "x1" in element and "y1" in element and "x2" in element and "y2" in element:
+                        element["x1"] = element["x1"] + x
+                        element["y1"] = element["y1"] + y
+                        element["x2"] = element["x2"] + x
+                        element["y2"] = element["y2"] + y
+            
+        for element in element_coords:
+            if element["type"] == "text": 
+                cBoard.add_text(element["content"], ( element["x"], element["y"]), element["color"])
             elif element["type"] == "image":
-                x = 0
-                y = 0
-                if element["align_id"] != "":
-                    x, y = self._calculate_position(element["align_id"], element_coords)
-                    print "POS", x, y
-                    
                 cBoard.add_image(element["filename"], 
                                  (element["w"], element["h"]), 
-                                 ( x + element["x"], y + element["y"]),
+                                 ( element["x"], element["y"]),
                                  element["transparent"])
+            elif element["type"] == "line":
+                cBoard.add_line((element["x1"], element["y1"]), 
+                                (element["x2"], element["y2"]),
+                                element["color"],
+                                element["width"])
+            elif element["type"] == "rectangle":
+                cBoard.add_rectangle((element["x1"], element["y1"]), 
+                                (element["x2"], element["y2"]),
+                                element["color"])
+            elif element["type"] == "ellipse":
+                cBoard.add_ellipse((element["x1"], element["y1"]), 
+                                (element["x2"], element["y2"]),
+                                element["color"])
         
         cBoard.save()
         return filename
@@ -344,17 +508,33 @@ class ShotsTrees(object):
         for element in elements:
             if element["id"] == element_id:
                 if "__finite_coords" in element:
-                    return element["x"], element["y"]
+                    if "x" in element and "y" in element:
+                        return element["x"], element["y"]
+                    if "x1" in element and "y1" in element:
+                        return element["x1"], element["y1"]
                 else:
                     if element["align_id"] != "":
-                        x, y = self._calculate_position(element["align_id"], elements)
-                        element["x"] = x
-                        element["y"] = y
-                        element["__finite_coords"] = True
-                        return element["x"], element["y"]
+                        if "x" in element and "y" in element:
+                            x, y = self._calculate_position(element["align_id"], elements)
+                            element["x"] = element["x"] + x
+                            element["y"] = element["y"] + y
+                            element["__finite_coords"] = True
+                            return element["x"], element["y"]
+                        
+                        if "x1" in element and "y1" in element and "x2" in element and "y2" in element:
+                            x, y = self._calculate_position(element["align_id"], elements)
+                            element["x1"] = element["x1"] + x
+                            element["y1"] = element["y1"] + y
+                            element["x2"] = element["x2"] + x
+                            element["y2"] = element["y2"] + y
+                            element["__finite_coords"] = True
+                            return element["x1"], element["y1"]
                     else:
                         element["__finite_coords"] = True
-                        return element["x"], element["y"]
+                        if "x" in element and "y" in element:
+                            return element["x"], element["y"]
+                        if "x1" in element and "y1" in element:
+                            return element["x1"], element["y1"]
         
         return 0, 0
 

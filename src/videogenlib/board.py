@@ -27,11 +27,11 @@ class Board(object):
     def add_line(self, xy1, xy2, fill, width):
         self._ctx.line([xy1, xy2], fill, width)
     
-    def add_square(self, xy1, xy2, fill):
+    def add_rectangle(self, xy1, xy2, fill):
         self._ctx.rectangle([xy1, xy2], fill)
         
-    def add_ellipse(self, xy, fill):
-        self._ctx.ellipse(xy, fill)
+    def add_ellipse(self, xy1, xy2, fill):
+        self._ctx.ellipse((xy1[0], xy1[1], xy2[0], xy2[1]), fill)
         
         
         
