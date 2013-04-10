@@ -22,6 +22,7 @@ class FFMpegVisitor(Visitor):
         self._sar = 0
         self._video_codec = "libx264"
         self._audio_codec = "libmp3lame"
+        self.temp_files = []
         
         self._tempInputOptionsMap = {}
     
@@ -69,8 +70,11 @@ class FFMpegVisitor(Visitor):
             command = command + space
             
         (directory_name, file_name) = os.path.split(self._output)
-        temp_file = directory_name + os.sep + "DEADBEEF" + file_name
-        temp_file2 = directory_name + os.sep + "DEADBEEF__DEADBEEF" + file_name
+        temp_file = directory_name + os.sep + "partial_" + file_name
+        temp_file2 = directory_name + os.sep + "partial_2" + file_name
+        
+        self.temp_files.append(temp_file);
+        self.temp_files.append(temp_file2);
             
         if self._is_image == True or self._is_color == True:
             command = command + temp_file2

@@ -56,13 +56,19 @@ def main():
     
     trees = ShotsTrees(options)
     (shots, configuration_node) = trees.create()
+    all_temp_files = []
     
     for shot in shots:
         visitor = FFMpegVisitor()
         shot.accept(visitor)
         command = visitor.get_command()
         print command
+        
+        command = "\"" + command + "\""
+        
         os.system(command)
+        all_temp_files.extend(visitor.temp_files)
+        all
         
     if shots:
         visitor = FFMpegVisitor()
@@ -85,10 +91,14 @@ def main():
         
         for shot in shots:
             i = i + 1
-            sequence.add_child(InputFileNode(options.tmp + options.attach + str(i) + ".avi", TYPE_VIDEO))
+            t_filename = options.tmp + options.attach + str(i) + ".avi"
+            sequence.add_child(InputFileNode(t_filename, TYPE_VIDEO))
+            all_temp_files.append(t_filename)
             
         sequence.accept(visitor)
         command = visitor.get_command()
+        
+        command = "\"" + command + "\""
         
         os.system(command)
         if options.softsubtitles != None:
@@ -96,6 +106,15 @@ def main():
         else:
             subs = SoftSubtitles(options.output, configuration_node.subs) 
         subs.add_subtitles()
+        
+        delete_temp = True
+        
+        if delete_temp:
+            for path in all_temp_files:
+                try:
+                    os.remove(path)
+                except:
+                    pass
         
     return
 
