@@ -11,8 +11,11 @@ Contents:
 .. toctree::
    :maxdepth: 2 
 
+   _static/install
+   _static/running
    _static/commands
    _static/xml
+
 
 
 Indices and tables

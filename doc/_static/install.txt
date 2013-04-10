@@ -1,0 +1,7 @@
+Install VideoGen
+=================
+
+In order to install VideoGen on your machine, you need to download source code from `VideoGen's GitHub Website <https://github.com/perfidia/videogen>`_ or git repository.
+If you already have python installed, the VideoGen is ready to use. For further instructions how to run VideoGen look into "Running VideoGen" section in documentation.
+
+In order to install python on your computer, follow instructions from this link: `Python.org <www.python.org/getit/>`_ 
