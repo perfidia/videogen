@@ -4,6 +4,7 @@ from videogenlib import *
 import os
 import sys
 import subprocess
+import re
 
 def exists_in_path(cmd):
     # can't search the path if a directory is specified
@@ -52,6 +53,20 @@ def main():
     
     if not is_app(exec_path):
         print "No ffmpeg set. Please use -e [executable] to set ffmpeg"
+        return
+    
+    try:
+        # ffmpeg moga byc dobre w nowych wersjach testowych,
+        # dlatego nie sprawdzamy konkretnej wersji a format wyjscia "-version"
+        p1 = subprocess.Popen([exec_path, "-version"],stdout=subprocess.PIPE)
+        process_text = p1.communicate()[0]
+        
+        ver = re.search("ffmpeg version ([^\\s]+)", process_text)
+        ver_str = ver.group(0)
+        m = re.search("([^\\s]+)$", ver_str)
+        print m.group(0)
+    except:
+        print "FFmpeg version is not acceptable"
         return
     
     trees = ShotsTrees(options)
