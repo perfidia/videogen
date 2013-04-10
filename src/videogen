@@ -3,10 +3,41 @@
 from videogenlib import *
 import os
 import sys
+import subprocess
+
+def exists_in_path(cmd):
+    # can't search the path if a directory is specified
+    assert not os.path.dirname(cmd)
+    
+    extensions = os.environ.get("PATHEXT", "").split(os.pathsep)
+    for directory in os.environ.get("PATH", "").split(os.pathsep):
+        base = os.path.join(directory, cmd)
+        options = [base] + [(base + ext) for ext in extensions]
+        for filename in options:
+            if os.path.exists(filename):
+                return True
+    return False
+
+def is_app(app):
+    try:
+        subprocess.call([app])
+    except OSError as e:
+        if e.errno == os.errno.ENOENT:
+            # handle file not found error.
+            return False
+        else:
+            # Something else went wrong while trying to run `wget`
+            return False
+        
+    return True
 
 def main():
     vidgen_parser = VideoGenOptionParser()
     options = vidgen_parser.get_options()
+    
+    exec_path = options.encoder
+    
+    options.encoder = "\"" + options.encoder + "\""
     
     if len(sys.argv) < 2:
         vidgen_parser.print_help()
@@ -15,6 +46,12 @@ def main():
     if options.conf == None:
         print "use -c [file] or --conf=[file], help:"
         vidgen_parser.print_help()
+        return
+    
+    exec_path.replace("\\", "/")
+    
+    if not is_app(exec_path):
+        print "No ffmpeg set. Please use -e [executable] to set ffmpeg"
         return
     
     trees = ShotsTrees(options)
@@ -39,7 +76,7 @@ def main():
         sequence.add_child(outfn)
         
         mainconf = ConfigurationNode(None, None, None, -1,
-                                     configuration_node.video_codec, 
+                                     configuration_node.video_codec,
                                      configuration_node.audio_codec)
         
         outfn.add_child(mainconf)
@@ -48,13 +85,13 @@ def main():
         
         for shot in shots:
             i = i + 1
-            sequence.add_child(InputFileNode(options.tmp + options.attach + str(i)+".avi", TYPE_VIDEO))
+            sequence.add_child(InputFileNode(options.tmp + options.attach + str(i) + ".avi", TYPE_VIDEO))
             
         sequence.accept(visitor)
         command = visitor.get_command()
         print command
         os.system(command)
-        if options.softsubtitles!=None:
+        if options.softsubtitles != None:
         	subs = SoftSubtitles(options.output, options.softsubtitles)
         else:
         	subs = SoftSubtitles(options.output, configuration_node.subs) 
