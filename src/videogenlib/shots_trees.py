@@ -74,14 +74,11 @@ class ShotsTrees(object):
                 
                 for i in effect.getElementsByTagName("unit"):
                     units = i.firstChild.data
-                    print units
                 
                 for i in effect.getElementsByTagName("from"):
                         start = i.firstChild.data.strip()
-                        print start
                 for i in effect.getElementsByTagName("to"):
                         end = i.firstChild.data.strip()
-                        print end
                         
                 zero = "0"
                 if units == "m:s":
