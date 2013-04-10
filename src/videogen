@@ -48,6 +48,8 @@ def main():
         command = visitor.get_command()
         print command
         os.system(command)
+        subs = SoftSubtitles(options.output, options.softsubtitles)
+        subs.add_subtitles()
         
     return
 

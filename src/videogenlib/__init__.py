@@ -14,6 +14,7 @@ from color_node import ColorNode
 from audio_node import AudioNode
 from video_node import VideoNode
 from board import Board
+from soft_subtitles import SoftSubtitles
 
 from constants import TYPE_VIDEO
 from constants import TYPE_AUDIO
