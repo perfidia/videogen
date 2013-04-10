@@ -36,8 +36,9 @@
 					</configuration>
 					<text>
 						<id>ijo</id>
-						<content>ijo ijo!</content>
+						<content>jojo</content>
 						<color>#00FFFF</color>
+						<font>pilfonts/helvO24.pil</font>
 						<point>
 							<x>40</x>
 							<y>200</y>
@@ -79,12 +80,16 @@
 					<ellipse>
 						<id>elp</id>
 						<align_id>rec</align_id>
+						<align>
+							<x>center</x>
+							<y>center</y>
+						</align>
 						<point_start>
-							<x>40</x>
+							<x>0</x>
 							<y>0</y>
 						</point_start>
 						<point_end>
-							<x>80</x>
+							<x>40</x>
 							<y>40</y>
 						</point_end>
 						<color>#FFFF00</color>
