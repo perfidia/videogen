@@ -12,6 +12,7 @@ class VideoGenOptionParser(object):
         self._parser.add_option("-a", "--attach", help="a string which should be added before each file that is loaded", dest="attach")
         self._parser.add_option("-e", "--encoder", help="location of ffmpeg encoder", dest="encoder")
         self._parser.add_option("-y", action="store_true", help="do not ask to overwrite files", dest="overwrite")
+        self._parser.add_option("-s", "--subtitles", help="Adds *.srt soft subtitles file to the output directory", dest="softsubtitles")
         
         self._options = {}
         (self._options, args) = self._parser.parse_args()

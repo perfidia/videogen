@@ -1,0 +1,15 @@
+0
+00:00:01,000 --> 00:00:04,000
+Soft Subtitles for VideoGen
+
+1
+00:00:10,219 --> 00:00:13,673
+VideoGen is the greatest tool in the world.
+
+2
+00:00:14,686 --> 00:00:18,435
+test test test test test
+
+3
+00:00:20,227 --> 00:00:25,751
+Thank you for your attention.
