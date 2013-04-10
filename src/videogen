@@ -10,6 +10,12 @@ def main():
     
     if len(sys.argv) < 2:
         vidgen_parser.print_help()
+        return
+    
+    if options.conf == None:
+        print "use -c [file] or --conf=[file], help:"
+        vidgen_parser.print_help()
+        return
     
     trees = ShotsTrees(options)
     (shots, configuration_node) = trees.create()
