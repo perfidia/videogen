@@ -9,7 +9,7 @@
 				30
 			</rate>
 		</frame>
-		<subtitles>../data/subtitles.srt</subtitles>
+		<subtitles>../samples/data/subtitles.srt</subtitles>
 	</configuration>
 	<sequence>
 		<shot>
