@@ -5,6 +5,7 @@ import os
 import sys
 import subprocess
 import re
+import platform
 
 def exists_in_path(cmd):
     # can't search the path if a directory is specified
@@ -37,8 +38,15 @@ def main():
     options = vidgen_parser.get_options()
     
     exec_path = options.encoder
+
+    sysname = platform.system()
+    isWindows = False
+
+    if sysname == "Windows":
+        isWindows = True
     
-    options.encoder = "\"" + options.encoder + "\""
+    if isWindows:
+        options.encoder = "\"" + options.encoder + "\""
     
     if len(sys.argv) < 2:
         vidgen_parser.print_help()
@@ -79,11 +87,11 @@ def main():
         command = visitor.get_command()
         print command
         
-        command = "\"" + command + "\""
+        if isWindows:
+            command = "\"" + command + "\""
         
         os.system(command)
         all_temp_files.extend(visitor.temp_files)
-        all
         
     if shots:
         visitor = FFMpegVisitor()
@@ -113,7 +121,8 @@ def main():
         sequence.accept(visitor)
         command = visitor.get_command()
         
-        command = "\"" + command + "\""
+        if isWindows:
+            command = "\"" + command + "\""
         
         os.system(command)
         if options.softsubtitles != None:
